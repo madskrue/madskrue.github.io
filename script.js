@@ -8,6 +8,15 @@ function getItems(key) {
   return Array.from(template.content.querySelectorAll('item, a'));
 }
 
+function preloadImages() {
+  document.querySelectorAll('item[image]').forEach(item => {
+    const img = new Image();
+    img.src = item.getAttribute('image');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', preloadImages);
+
 function showSubmenu(key) {
   submenu.innerHTML = "";
 
