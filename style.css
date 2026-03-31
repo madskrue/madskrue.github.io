@@ -11,7 +11,7 @@
 
 /* 3. Basis body */
 body {
-  font-family: Arial;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 11px;
   background-color: #e8e2dd;
   line-height: 1.4;
@@ -48,6 +48,11 @@ a:hover {
 
 
 header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(232, 226, 221, 0.75);
+    backdrop-filter: blur(1px);
     padding-left: 6px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -120,10 +125,23 @@ header img:active {
   color: #666;
 }
 
+.menu p.active {
+    text-decoration: underline;
+}
+
+.submenu p.active {
+    text-decoration: underline;
+}
+
 
 
 .content {
     padding: 6px;
+    font-weight: normal;
+}
+
+.content a {
+    text-decoration: wavy underline;
     font-weight: normal;
 }
 
