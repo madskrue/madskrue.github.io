@@ -29,6 +29,8 @@ function showSubmenu(key) {
       const el = document.createElement('p');
       el.textContent = item.getAttribute('name');
       el.onclick = () => {
+          document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
+          el.classList.add('active');
           content.innerHTML = item.innerHTML;
           const img = item.getAttribute('image');
           const caption = item.getAttribute('image-caption');
@@ -46,6 +48,8 @@ function showSubmenu(key) {
 
 menu.forEach(item => {
   item.addEventListener('click', () => {
+    menu.forEach(m => m.classList.remove('active'));
+    item.classList.add('active');
     const key = item.dataset.target;
     showSubmenu(key);
   });
@@ -61,6 +65,7 @@ logo.addEventListener('click', () => {
 });
 
 document.getElementById('header-title').addEventListener('click', () => {
+  menu.forEach(m => m.classList.remove('active'));
   submenu.innerHTML = "";
   content.innerHTML = "";
   imageCol.innerHTML = "";
