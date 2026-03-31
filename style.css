@@ -16,6 +16,9 @@ body {
   background-color: #e8e2dd;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 /* 4. Medier */
@@ -79,13 +82,15 @@ header img:active {
 
 .layout {
     display: grid;
-    grid-template-columns: 100px 200px 400px 1fr;
+    grid-template-columns: minmax(80px, 100px) minmax(200px, 250px) minmax(250px, 400px) minmax(400px, 1fr);
+    flex: 1;
 }
 
 
 
 .menu {
     padding: 6px;
+    border-right: #ccc dotted 1px;
 }
 
 .menu p {
@@ -103,6 +108,10 @@ header img:active {
 .submenu {
     padding: 6px;
     font-weight: bold;
+}
+
+.submenu:not(:empty) {
+    border-right: #ccc dotted 1px;
 }
 
 .submenu p {
@@ -138,6 +147,10 @@ header img:active {
 .content {
     padding: 6px;
     font-weight: normal;
+}
+
+.content:not(:empty) {
+    border-right: #ccc dotted 1px;
 }
 
 .content a {
