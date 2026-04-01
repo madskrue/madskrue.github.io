@@ -110,17 +110,27 @@ backArrow.addEventListener('click', () => {
   }
 });
 
-const clickSound = new Audio('lyd/DuiB.mp3');
-clickSound.load();
+let audioCtx;
+let clickBuffer;
 
-document.addEventListener('click', () => {
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  ctx.resume();
-}, { once: true });
+fetch('lyd/DuiB.mp3')
+  .then(res => res.arrayBuffer())
+  .then(data => {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx.decodeAudioData(data);
+  })
+  .then(buffer => {
+    clickBuffer = buffer;
+  });
 
 const logo = document.querySelector('header img');
 logo.addEventListener('click', () => {
-  clickSound.play();
+  if (!clickBuffer) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const source = audioCtx.createBufferSource();
+  source.buffer = clickBuffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
 });
 
 document.getElementById('header-title').addEventListener('click', () => {
