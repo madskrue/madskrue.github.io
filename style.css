@@ -84,6 +84,7 @@ header img:active {
     display: grid;
     grid-template-columns: minmax(80px, 100px) minmax(200px, 250px) minmax(250px, 400px) minmax(400px, 1fr);
     flex: 1;
+    overflow: hidden;
 }
 
 
@@ -91,6 +92,8 @@ header img:active {
 .menu {
     padding: 6px;
     border-right: #ccc dotted 1px;
+    overflow-y: auto;  /* tilføj */
+    height: 100%;      /* tilføj */
 }
 
 .menu p {
@@ -108,6 +111,8 @@ header img:active {
 .submenu {
     padding: 6px;
     font-weight: bold;
+    overflow-y: auto;  /* tilføj */
+    height: 100%;      /* tilføj */
 }
 
 .submenu:not(:empty) {
@@ -147,6 +152,8 @@ header img:active {
 .content {
     padding: 6px;
     font-weight: normal;
+    overflow-y: auto;  /* tilføj */
+    height: 100%;      /* tilføj */
 }
 
 .content:not(:empty) {
@@ -158,6 +165,10 @@ header img:active {
     font-weight: normal;
 }
 
+.content images {
+    display: none;
+}
+
 
 
 .image-col {
@@ -165,6 +176,8 @@ header img:active {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    overflow-y: auto;  /* tilføj */
+    height: 100%;      /* tilføj */
 }
 
 .image-col img {
@@ -177,4 +190,5 @@ header img:active {
     padding-top: 4px;
     color: #666;
     font-size: 10px;
+    padding-bottom: 6px;
 }

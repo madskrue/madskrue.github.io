@@ -9,10 +9,10 @@ function getItems(key) {
 }
 
 function preloadImages() {
-  document.querySelectorAll('item[image]').forEach(item => {
-    const img = new Image();
-    img.src = item.getAttribute('image');
-  });
+    document.querySelectorAll('item images img').forEach(img => {
+        const el = new Image();
+        el.src = img.getAttribute('src');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', preloadImages);
@@ -32,11 +32,14 @@ function showSubmenu(key) {
           document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
           el.classList.add('active');
           content.innerHTML = item.innerHTML;
-          const img = item.getAttribute('image');
-          const caption = item.getAttribute('image-caption');
-          if (img) {
-              imageCol.innerHTML = `<img src="${img}" alt="${item.getAttribute('name')}">` 
-                  + (caption ? `<p class="image-caption">${caption}</p>` : '');
+          const images = Array.from(item.querySelectorAll('images img'));
+          if (images.length) {
+              imageCol.innerHTML = images.map(img =>
+                  `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
+                  (img.getAttribute('caption')
+                      ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
+                      : '')
+              ).join('');
           } else {
               imageCol.innerHTML = '';
           }
