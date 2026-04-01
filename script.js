@@ -148,7 +148,7 @@ playBtn.addEventListener('click', () => {
     musicSource.stop();
     musicSource = null;
     musicPlaying = false;
-    playBtn.textContent = '▷';
+    playBtn.textContent = '▶︎';
   } else {
     musicSource = audioCtx.createBufferSource();
     musicSource.buffer = musicBuffer;
@@ -157,7 +157,7 @@ playBtn.addEventListener('click', () => {
     musicSource.start(0, musicOffset);
     musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
-    playBtn.textContent = '▐▐';
+    playBtn.textContent = '◼︎';
   }
 });
 
