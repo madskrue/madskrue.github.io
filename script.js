@@ -113,9 +113,13 @@ backArrow.addEventListener('click', () => {
 const clickSound = new Audio('lyd/DuiB.mp3');
 clickSound.load();
 
+document.addEventListener('click', () => {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  ctx.resume();
+}, { once: true });
+
 const logo = document.querySelector('header img');
 logo.addEventListener('click', () => {
-  clickSound.currentTime = 0;
   clickSound.play();
 });
 
