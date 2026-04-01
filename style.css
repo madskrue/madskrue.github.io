@@ -192,3 +192,36 @@ header img:active {
     font-size: 10px;
     padding-bottom: 6px;
 }
+
+
+/* Mobil */
+
+@media (max-width: 600px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    height: auto;
+  }
+
+  .menu, .submenu, .content, .image-col {
+    display: none;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .menu.mobile-active,
+  .submenu.mobile-active,
+  .content.mobile-active {
+    display: block;
+  }
+
+  .image-col.mobile-active {
+    display: block;
+  }
+}
