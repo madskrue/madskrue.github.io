@@ -3,7 +3,14 @@ const submenu = document.getElementById('submenu');
 const content = document.getElementById('content');
 const imageCol = document.getElementById('image-col');
 const backArrow = document.getElementById('back-arrow');
+const playBtn = document.getElementById('play-btn');
 let mobileDepth = 0;
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let clickBuffer;
+let musicBuffer;
+let musicSource;
+let musicPlaying = false;
 
 function isMobile() {
   return window.innerWidth <= 600;
@@ -15,10 +22,10 @@ function getItems(key) {
 }
 
 function preloadImages() {
-    document.querySelectorAll('item images img').forEach(img => {
-        const el = new Image();
-        el.src = img.getAttribute('src');
-    });
+  document.querySelectorAll('item images img').forEach(img => {
+    const el = new Image();
+    el.src = img.getAttribute('src');
+  });
 }
 
 function setMobileDepth(depth) {
@@ -56,26 +63,26 @@ function showSubmenu(key) {
       const el = document.createElement('p');
       el.textContent = item.getAttribute('name');
       el.onclick = () => {
-          document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
-          el.classList.add('active');
-          content.innerHTML = item.innerHTML;
-          const images = Array.from(item.querySelectorAll('images img'));
-          if (images.length) {
-              imageCol.innerHTML = images.map(img =>
-                  `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
-                  (img.getAttribute('caption')
-                      ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
-                      : '')
-              ).join('');
-          } else {
-              imageCol.innerHTML = '';
-          }
-          if (isMobile()) {
-            document.querySelector('.submenu').classList.remove('mobile-active');
-            content.classList.add('mobile-active');
-            imageCol.classList.add('mobile-active');
-            setMobileDepth(2);
-          }
+        document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        content.innerHTML = item.innerHTML;
+        const images = Array.from(item.querySelectorAll('images img'));
+        if (images.length) {
+          imageCol.innerHTML = images.map(img =>
+            `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
+            (img.getAttribute('caption')
+              ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
+              : '')
+          ).join('');
+        } else {
+          imageCol.innerHTML = '';
+        }
+        if (isMobile()) {
+          document.querySelector('.submenu').classList.remove('mobile-active');
+          content.classList.add('mobile-active');
+          imageCol.classList.add('mobile-active');
+          setMobileDepth(2);
+        }
       };
       submenu.appendChild(el);
     }
@@ -110,18 +117,15 @@ backArrow.addEventListener('click', () => {
   }
 });
 
-let audioCtx;
-let clickBuffer;
-
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
-  .then(data => {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    return audioCtx.decodeAudioData(data);
-  })
-  .then(buffer => {
-    clickBuffer = buffer;
-  });
+  .then(data => audioCtx.decodeAudioData(data))
+  .then(buffer => { clickBuffer = buffer; });
+
+fetch('lyd/success.mp3')
+  .then(res => res.arrayBuffer())
+  .then(data => audioCtx.decodeAudioData(data))
+  .then(buffer => { musicBuffer = buffer; });
 
 const logo = document.querySelector('header img');
 logo.addEventListener('click', () => {
@@ -129,14 +133,28 @@ logo.addEventListener('click', () => {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   const source = audioCtx.createBufferSource();
   source.buffer = clickBuffer;
-
-  const gainNode = audioCtx.createGain();
-  gainNode.gain.value = 0.5; // 0.0 = stille, 1.0 = fuld volumen
-
-  source.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-
+  source.connect(audioCtx.destination);
   source.start(0);
+});
+
+playBtn.addEventListener('click', () => {
+  if (!musicBuffer) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+
+  if (musicPlaying) {
+    musicSource.stop();
+    musicSource = null;
+    musicPlaying = false;
+    playBtn.textContent = '▷';
+  } else {
+    musicSource = audioCtx.createBufferSource();
+    musicSource.buffer = musicBuffer;
+    musicSource.loop = true;
+    musicSource.connect(audioCtx.destination);
+    musicSource.start(0);
+    musicPlaying = true;
+    playBtn.textContent = '▐▐';
+  }
 });
 
 document.addEventListener('pointerdown', () => {
