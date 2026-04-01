@@ -11,6 +11,8 @@ let clickBuffer;
 let musicBuffer;
 let musicSource;
 let musicPlaying = false;
+let musicStartTime = 0;
+let musicOffset = 0;
 
 function isMobile() {
   return window.innerWidth <= 600;
@@ -142,6 +144,7 @@ playBtn.addEventListener('click', () => {
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
   if (musicPlaying) {
+    musicOffset = (audioCtx.currentTime - musicStartTime) % musicBuffer.duration;
     musicSource.stop();
     musicSource = null;
     musicPlaying = false;
@@ -151,7 +154,8 @@ playBtn.addEventListener('click', () => {
     musicSource.buffer = musicBuffer;
     musicSource.loop = true;
     musicSource.connect(audioCtx.destination);
-    musicSource.start(0);
+    musicSource.start(0, musicOffset);
+    musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
     playBtn.textContent = '▐▐';
   }
