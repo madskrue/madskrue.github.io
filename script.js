@@ -2,6 +2,8 @@ const menu = document.querySelectorAll('.menu p');
 const submenu = document.getElementById('submenu');
 const content = document.getElementById('content');
 const imageCol = document.getElementById('image-col');
+const backArrow = document.getElementById('back-arrow');
+let mobileDepth = 0;
 
 function isMobile() {
   return window.innerWidth <= 600;
@@ -19,9 +21,21 @@ function preloadImages() {
     });
 }
 
+function setMobileDepth(depth) {
+  if (!isMobile()) return;
+  mobileDepth = depth;
+  if (depth > 0) {
+    backArrow.classList.remove('inactive');
+  } else {
+    backArrow.classList.add('inactive');
+  }
+}
+
 function initMobileView() {
   if (isMobile()) {
     document.querySelector('.menu').classList.add('mobile-active');
+    backArrow.style.display = 'inline';
+    backArrow.classList.add('inactive');
   }
 }
 
@@ -60,6 +74,7 @@ function showSubmenu(key) {
             document.querySelector('.submenu').classList.remove('mobile-active');
             content.classList.add('mobile-active');
             imageCol.classList.add('mobile-active');
+            setMobileDepth(2);
           }
       };
       submenu.appendChild(el);
@@ -69,6 +84,7 @@ function showSubmenu(key) {
   if (isMobile()) {
     document.querySelector('.menu').classList.remove('mobile-active');
     document.querySelector('.submenu').classList.add('mobile-active');
+    setMobileDepth(1);
   }
 }
 
@@ -79,6 +95,19 @@ menu.forEach(item => {
     const key = item.dataset.target;
     showSubmenu(key);
   });
+});
+
+backArrow.addEventListener('click', () => {
+  if (mobileDepth === 2) {
+    content.classList.remove('mobile-active');
+    imageCol.classList.remove('mobile-active');
+    document.querySelector('.submenu').classList.add('mobile-active');
+    setMobileDepth(1);
+  } else if (mobileDepth === 1) {
+    document.querySelector('.submenu').classList.remove('mobile-active');
+    document.querySelector('.menu').classList.add('mobile-active');
+    setMobileDepth(0);
+  }
 });
 
 const clickSound = new Audio('lyd/DuiB.mp3');
@@ -95,6 +124,7 @@ document.getElementById('header-title').addEventListener('click', () => {
   submenu.innerHTML = "";
   content.innerHTML = "";
   imageCol.innerHTML = "";
+  setMobileDepth(0);
 
   if (isMobile()) {
     document.querySelector('.submenu').classList.remove('mobile-active');

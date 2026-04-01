@@ -225,3 +225,21 @@ header img:active {
     display: block;
   }
 }
+
+#back-arrow {
+    cursor: pointer;
+    padding-right: 2px;
+}
+
+#back-arrow.inactive {
+    color: #aaa;
+    cursor: default;
+}
+
+#back-arrow.inactive:hover {
+    color: #aaa;
+}
+
+#back-arrow:hover {
+    color: #666;
+}
