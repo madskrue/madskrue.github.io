@@ -129,7 +129,13 @@ logo.addEventListener('click', () => {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   const source = audioCtx.createBufferSource();
   source.buffer = clickBuffer;
-  source.connect(audioCtx.destination);
+
+  const gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0.5; // 0.0 = stille, 1.0 = fuld volumen
+
+  source.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
   source.start(0);
 });
 
