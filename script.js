@@ -133,6 +133,10 @@ logo.addEventListener('click', () => {
   source.start(0);
 });
 
+document.addEventListener('pointerdown', () => {
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}, { once: true });
+
 document.getElementById('header-title').addEventListener('click', () => {
   menu.forEach(m => m.classList.remove('active'));
   submenu.innerHTML = "";
