@@ -23,8 +23,11 @@ function getItems(key) {
   return Array.from(template.content.querySelectorAll('item, a'));
 }
 
-function preloadImages() {
-  document.querySelectorAll('item images img').forEach(img => {
+function preloadImages(key) {
+  const template = document.getElementById(`data-${key}`);
+  if (!template) return;
+  
+  template.content.querySelectorAll('item images img').forEach(img => {
     const el = new Image();
     el.src = img.getAttribute('src');
   });
@@ -49,12 +52,14 @@ function initMobileView() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  preloadImages();
   initMobileView();
 });
 
 function showSubmenu(key) {
   submenu.innerHTML = "";
+  
+  // Preload images for this section
+  preloadImages(key);
 
   getItems(key).forEach(item => {
     if (item.tagName === 'A') {
