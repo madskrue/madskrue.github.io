@@ -167,7 +167,7 @@ playBtn.addEventListener('click', () => {
     musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
     playBtn.textContent = '◼︎';
-    document.getElementById('play-text').textContent = 'success';
+    document.getElementById('play-text').textContent = 'now playing: success.mp3';
   }
 });
 
