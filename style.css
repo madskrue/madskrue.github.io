@@ -78,9 +78,16 @@ header img:active {
   cursor: grabbing;
 }
 
+#play-text {
+    margin-left: auto;
+    margin-right: 3px;
+    font-size: 10px;
+    font-weight: normal;
+    cursor: default;
+}
+
 #play-btn {
     cursor: pointer;
-    margin-left: auto;
     margin-right: 6px;
 }
 
