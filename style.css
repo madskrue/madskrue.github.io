@@ -63,7 +63,20 @@ header {
     font-weight: bold;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+
+#header-venstre {
+    display: flex;
+    justify-content: left;
     gap: 6px;
+}
+
+#header-højre {
+    display: flex;
+    justify-content: right;
+    gap: 6px;
+    margin-left: auto;
 }
 
 header p {
@@ -79,8 +92,12 @@ header img:active {
 }
 
 #play-text {
-    margin-left: auto;
-    margin-right: 3px;
+    font-size: 10px;
+    font-weight: normal;
+    cursor: default;
+    display: inline-block;
+    white-space: nowrap;
+    animation: løb 5s ease-out forwards;
     font-size: 10px;
     font-weight: normal;
     cursor: default;
@@ -89,6 +106,13 @@ header img:active {
 #play-btn {
     cursor: pointer;
     margin-right: 6px;
+}
+
+@keyframes løb {
+    0% {transform: translateX(-30vw); opacity: 0;}
+    10% {filter: blur(2px);}
+    90% {opacity: 1;}
+    100% {transform: translateX(0); filter: blur(0); opacity: 1;}
 }
 
 
