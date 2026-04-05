@@ -1,3 +1,4 @@
+// Hent alt relevant
 const menu = document.querySelectorAll('.menu p');
 const submenu = document.getElementById('submenu');
 const content = document.getElementById('content');
@@ -6,6 +7,7 @@ const backArrow = document.getElementById('back-arrow');
 const playBtn = document.getElementById('play-btn');
 let mobileDepth = 0;
 
+// Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer;
 let musicBuffer;
@@ -14,25 +16,12 @@ let musicPlaying = false;
 let musicStartTime = 0;
 let musicOffset = 0;
 
+// Afgør device
 function isMobile() {
   return window.innerWidth <= 600;
 }
 
-function getItems(key) {
-  const template = document.getElementById(`data-${key}`);
-  return Array.from(template.content.querySelectorAll('item, a'));
-}
-
-function preloadImages(key) {
-  const template = document.getElementById(`data-${key}`);
-  if (!template) return;
-  
-  template.content.querySelectorAll('item images img').forEach(img => {
-    const el = new Image();
-    el.src = img.getAttribute('src');
-  });
-}
-
+// Mobil: Navigationsdybde
 function setMobileDepth(depth) {
   if (!isMobile()) return;
   mobileDepth = depth;
@@ -43,6 +32,7 @@ function setMobileDepth(depth) {
   }
 }
 
+// Mobil init: Nulstil til menu
 function initMobileView() {
   if (isMobile()) {
     document.querySelector('.menu').classList.add('mobile-active');
@@ -51,14 +41,72 @@ function initMobileView() {
   }
 }
 
+// Mobil: Når siden loades, init
 document.addEventListener('DOMContentLoaded', () => {
   initMobileView();
 });
 
+// Hent items
+function getItems(key) {
+  const template = document.getElementById(`data-${key}`);
+  return Array.from(template.content.querySelectorAll('item, a'));
+}
+
+// Header
+document.getElementById('header-title').addEventListener('click', () => {
+  menu.forEach(m => m.classList.remove('active'));
+  submenu.innerHTML = "";
+  content.innerHTML = "";
+  imageCol.innerHTML = "";
+  setMobileDepth(0);
+
+  if (isMobile()) {
+    document.querySelector('.submenu').classList.remove('mobile-active');
+    content.classList.remove('mobile-active');
+    imageCol.classList.remove('mobile-active');
+    document.querySelector('.menu').classList.add('mobile-active');
+  }
+});
+
+// Tilbage-pil
+backArrow.addEventListener('click', () => {
+  if (mobileDepth === 2) {
+    content.classList.remove('mobile-active');
+    imageCol.classList.remove('mobile-active');
+    document.querySelector('.submenu').classList.add('mobile-active');
+    setMobileDepth(1);
+  } else if (mobileDepth === 1) {
+    document.querySelector('.submenu').classList.remove('mobile-active');
+    document.querySelector('.menu').classList.add('mobile-active');
+    setMobileDepth(0);
+  }
+});
+
+// Menu-navigation
+menu.forEach(item => {
+  item.addEventListener('click', () => {
+    menu.forEach(m => m.classList.remove('active'));
+    item.classList.add('active');
+    const key = item.dataset.target;
+    showSubmenu(key);
+  });
+});
+
+// Hent billeder når menupunkt åbens
+function preloadImages(key) {
+  const template = document.getElementById(`data-${key}`);
+  if (!template) return;
+  
+  template.content.querySelectorAll('item images img').forEach(img => {
+    const el = new Image();
+    el.src = img.getAttribute('src');
+  });
+}
+
+// Submenu-navigation
 function showSubmenu(key) {
   submenu.innerHTML = "";
   
-  // Preload images for this section
   preloadImages(key);
 
   getItems(key).forEach(item => {
@@ -102,37 +150,11 @@ function showSubmenu(key) {
   }
 }
 
-menu.forEach(item => {
-  item.addEventListener('click', () => {
-    menu.forEach(m => m.classList.remove('active'));
-    item.classList.add('active');
-    const key = item.dataset.target;
-    showSubmenu(key);
-  });
-});
-
-backArrow.addEventListener('click', () => {
-  if (mobileDepth === 2) {
-    content.classList.remove('mobile-active');
-    imageCol.classList.remove('mobile-active');
-    document.querySelector('.submenu').classList.add('mobile-active');
-    setMobileDepth(1);
-  } else if (mobileDepth === 1) {
-    document.querySelector('.submenu').classList.remove('mobile-active');
-    document.querySelector('.menu').classList.add('mobile-active');
-    setMobileDepth(0);
-  }
-});
-
+// Dui-lyd
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
   .then(data => audioCtx.decodeAudioData(data))
   .then(buffer => { clickBuffer = buffer; });
-
-fetch('lyd/success.mp3')
-  .then(res => res.arrayBuffer())
-  .then(data => audioCtx.decodeAudioData(data))
-  .then(buffer => { musicBuffer = buffer; });
 
 const logo = document.querySelector('header img');
 logo.addEventListener('click', () => {
@@ -146,6 +168,12 @@ logo.addEventListener('click', () => {
   gain.connect(audioCtx.destination);
   source.start(0);
 });
+
+// Musikafspilning
+fetch('lyd/success.mp3')
+  .then(res => res.arrayBuffer())
+  .then(data => audioCtx.decodeAudioData(data))
+  .then(buffer => { musicBuffer = buffer; });
 
 playBtn.addEventListener('click', () => {
   if (!musicBuffer) return;
@@ -174,18 +202,3 @@ playBtn.addEventListener('click', () => {
 document.addEventListener('pointerdown', () => {
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }, { once: true });
-
-document.getElementById('header-title').addEventListener('click', () => {
-  menu.forEach(m => m.classList.remove('active'));
-  submenu.innerHTML = "";
-  content.innerHTML = "";
-  imageCol.innerHTML = "";
-  setMobileDepth(0);
-
-  if (isMobile()) {
-    document.querySelector('.submenu').classList.remove('mobile-active');
-    content.classList.remove('mobile-active');
-    imageCol.classList.remove('mobile-active');
-    document.querySelector('.menu').classList.add('mobile-active');
-  }
-});

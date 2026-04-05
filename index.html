@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- Head -->
 <head>
     <title>Mads Krue Bugge</title>
     <meta charset="UTF-8">
@@ -23,6 +24,7 @@
 
 <body>
 
+    <!-- Header -->
     <header>
         <span id="header-venstre">
             <span id="back-arrow" style="display:none;">◀︎</span>
@@ -35,24 +37,22 @@
         </span>
     </header>
 
+    <!-- Layout -->
     <main class="layout">
-
         <nav class="menu">
             <p data-target="music">Music</p>
             <p data-target="audio">Audio</p>
             <p data-target="visual">Visual</p>
             <p data-target="info">Info</p>
         </nav>
-
         <section class="submenu" id="submenu"></section>
-
         <section class="content" id="content"></section>
-
         <section class="image-col" id="image-col"></section>
     </main>
 
-
+    <!-- Music-menu -->
     <template id="data-music">
+        <!-- Y24 -->
         <item name="Første Kvartal: Y24">
             <images>
                 <img src="billeder/første-kvartal/y24q1.png" caption="Y24/Q1 © Første Kvartal">
@@ -77,6 +77,7 @@
             Music by Første Kvartal<br/>Released on Textur
         </item>
 
+        <!-- Polymer Veil -->
         <item name="Skarv: Polymer Veil">
             <images>
                 <img src="billeder/skarv/polymer-veil.jpg" caption="Polymer Veil © Mads Krue Bugge">
@@ -88,6 +89,7 @@
             <a href="https://skarv.bandcamp.com/album/polymer-veil" target="_blank">Polymer Veil on Bandcamp</a>
         </item>
 
+        <!-- Ærø -->
         <item name="Første Kvartal: Ærø">
             <images>
                 <img src="billeder/første-kvartal/ærø.jpg" caption="Ærø © Første Kvartal">
@@ -100,6 +102,7 @@
             <a href="https://texturcph.bandcamp.com/album/txt09-f-rste-kvartal-r" target="_blank">Ærø on Bandcamp</a>
         </item>
 
+        <!-- Time Stretches -->
         <item name="Skarv & Alto Aria: Time Stretches (Stretched Version)">
             <images>
                 <img src="billeder/skarv/stretched.jpg" caption="Time Stretches (Stretched Version) © Aria Leth Schütze & Mads Krue Bugge">
@@ -111,6 +114,7 @@
             <a href="https://rhz000.bandcamp.com/album/time-stretches-stretched-version" target="_blank">Time Stretches (Stretched Version) on Bandcamp</a>
         </item>
 
+        <!-- Haptic Feedback -->
         <item name="Skarv: Haptic Feedback">
             <images>
                 <img src="billeder/skarv/haptic-feedback.jpg" caption="Haptic Feedback © Mads Krue Bugge">
@@ -125,6 +129,7 @@
             <a href="https://rhz000.bandcamp.com/album/haptic-feedback" target="_blank">Haptic Feedback on Bandcamp</a>
         </item>
 
+        <!-- A Memory Like Any Other -->
         <item name="Skarv: A Memory Like Any Other">
             <images>
                 <img src="billeder/skarv/amlao.jpg" caption="A Memory Like Any Other © Aria Leth Schütze & Mads Krue Bugge">
@@ -138,6 +143,7 @@
             <a href="https://rhz000.bandcamp.com/album/a-memory-like-any-other" target="_blank">A Memory Like Any Other on Bandcamp</a>
         </item>
 
+        <!-- Singles -->
         <item name="Singles">
             <a href="https://rhz000.bandcamp.com/track/eclipse-feat-skarv" target="_blank">Eclipse (with Alto Aria)</a> 2025<br/>
             <a href="https://katharsis-label.bandcamp.com/track/ridge-on-ridge" target="_blank">Ridge on Ridge</a> 2024<br/>
@@ -148,7 +154,9 @@
         </item>
     </template>
 
+    <!-- Audio-menu -->
     <template id="data-audio">
+        <!-- Mix -->
         <item name="Mix">
             2025<br/>
             <strong>Ephemeral</strong> Alto Aria (album, Rhizome, November 2025)<br/>
@@ -179,6 +187,7 @@
             <strong>A Memory Like Any Other</strong> Skarv (album, Rhizome, August 2020)
         </item>
 
+        <!-- Master -->
         <item name="Master">
             2025<br/>
             <strong>You Are Freed</strong> Vamilla (album, Pink Cotton Candy Records, June 2025)<br/><br/>
@@ -205,7 +214,9 @@
 
     </template>
 
+    <!-- Visual-menu -->
     <template id="data-visual">
+        <!-- Polymer Veil -->
         <item name="Polymer Veil">
             <images>
                 <img src="billeder/skarv/polymer-veil.jpg" caption="Polymer Veil © Mads Krue Bugge">
@@ -214,12 +225,14 @@
                 <img src="billeder/skarv/success.jpg" caption="Success (feat. Alto Aria) © Mads Krue Bugge">
             </images>
         </item>
+        <!-- Haptic Feedback -->
         <item name="Haptic Feedback">
             <images>
                 <img src="billeder/skarv/haptic-feedback.jpg" caption="Haptic Feedback © Mads Krue Bugge">
                 <img src="billeder/skarv/realistic-touch.jpg" caption="Realistic Touch (feat. Alto Aria) © Mads Krue Bugge">
             </images>
         </item>
+        <!-- A Memory Like Any Other -->
         <item name="A Memory Like Any Other">
             <images>
                 <img src="billeder/skarv/amlao.jpg" caption="A Memory Like Any Other © Aria Leth Schütze & Mads Krue Bugge">
@@ -230,6 +243,7 @@
                 <img src="billeder/skarv/steelplate/steel1b.jpeg" caption="Steel plate © Mads Krue Bugge">
             </images>
         </item>
+        <!-- Rhizome -->
         <item name="Rhizome">
             <images>
                 <img src="billeder/rhizome/rhz2025.jpg" caption="Rhizome icon 2025 © Mads Krue Bugge">
@@ -238,6 +252,7 @@
                 <img src="billeder/rhizome/hypersea.jpg" caption="Various artists - Hypersea © Mads Krue Bugge">
             </images>
         </item>
+        <!-- Misc -->
         <item name="Miscellaneous 3D work">
             <images>
                 <img src="billeder/blender/2024.07.16.jpeg" caption="2024 © Mads Krue Bugge">
@@ -257,7 +272,9 @@
         </item>
     </template>
 
+    <!-- Info-menu -->
     <template id="data-info">
+        <!-- About -->
         <item name="About">
             <images>
                 <img src="billeder/mkb.jpg" caption="© Laura Cecilie Krogtoft">
@@ -268,12 +285,14 @@
             Part of the electro-acoustic quartet Første Kvartal.
         </item>
 
+        <!-- Contact -->
         <item name="Contact">
             <a href="mailto:mads.bugge@gmail.com">mads.bugge@gmail.com</a><br/>
             <a href="https://www.instagram.com/skarv6/" target="_blank">instagram</a><br/>
             <a href="https://soundcloud.com/skarv6" target="_blank">soundcloud</a><br/>
         </item>
 
+        <!-- Rhizome -->
         <item name="Rhizome">
             Label founded and run by Mads Krue Bugge and Aria Leth Schütze, releasing experimental music since 2020.<br/><br/>
             <a href="https://rhz000.com" target="_blank">rhz000.com</a><br/>
@@ -284,6 +303,7 @@
         </item>
     </template>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
 
 </body>

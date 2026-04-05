@@ -1,15 +1,13 @@
-/* 1. Box model */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* 2. Fjern alle margins/padding */
+/* Overordnet */
 * {
   margin: 0;
   padding: 0;
 }
 
-/* 3. Basis body */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Inter', Arial, sans-serif;
   font-size: 11px;
@@ -21,23 +19,19 @@ body {
   height: 100vh;
 }
 
-/* 4. Medier */
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 }
 
-/* 5. Formularer arver font */
 input, button, textarea, select {
   font: inherit;
 }
 
-/* 6. Fjern liste-styles */
 ul, ol {
   list-style: none;
 }
 
-/* 7. Links uden default styling */
 a {
   text-decoration: wavy underline;
   color: inherit;
@@ -48,8 +42,16 @@ a:hover {
   color: #666;
 }
 
+.layout {
+    display: grid;
+    grid-template-columns: minmax(80px, 100px) minmax(200px, 250px) minmax(250px, 400px) minmax(400px, 1fr);
+    flex: 1;
+    overflow: hidden;
+}
 
 
+
+/* Header */
 header {
     position: sticky;
     top: 0;
@@ -72,13 +74,6 @@ header {
     gap: 6px;
 }
 
-#header-højre {
-    display: flex;
-    justify-content: right;
-    gap: 6px;
-    margin-left: auto;
-}
-
 header p {
     cursor: pointer;
 }
@@ -89,6 +84,31 @@ header img {
 
 header img:active {
   cursor: grabbing;
+}
+
+#back-arrow {
+    cursor: pointer;
+    padding-right: 2px;
+}
+
+#back-arrow.inactive {
+    color: #aaa;
+    cursor: default;
+}
+
+#back-arrow.inactive:hover {
+    color: #aaa;
+}
+
+#back-arrow:hover {
+    color: #666;
+}
+
+#header-højre {
+    display: flex;
+    justify-content: right;
+    gap: 6px;
+    margin-left: auto;
 }
 
 #play-text {
@@ -109,16 +129,7 @@ header img:active {
 
 
 
-
-.layout {
-    display: grid;
-    grid-template-columns: minmax(80px, 100px) minmax(200px, 250px) minmax(250px, 400px) minmax(400px, 1fr);
-    flex: 1;
-    overflow: hidden;
-}
-
-
-
+/* Menu */
 .menu {
     padding: 6px;
     border-right: #ccc dotted 1px;
@@ -136,8 +147,13 @@ header img:active {
     color: #666;
 }
 
+.menu p.active {
+    text-decoration: underline;
+}
 
 
+
+/* Submenu */
 .submenu {
     padding: 6px;
     font-weight: bold;
@@ -169,16 +185,13 @@ header img:active {
   color: #666;
 }
 
-.menu p.active {
-    text-decoration: underline;
-}
-
 .submenu p.active {
     text-decoration: underline;
 }
 
 
 
+/* Content */
 .content {
     padding: 6px;
     font-weight: normal;
@@ -201,6 +214,7 @@ header img:active {
 
 
 
+/* Billeder */
 .image-col {
     padding: 6px;
     display: flex;
@@ -224,8 +238,8 @@ header img:active {
 }
 
 
-/* Mobil */
 
+/* Mobil */
 @media (max-width: 600px) {
   body {
     overflow-y: auto;
@@ -254,22 +268,4 @@ header img:active {
   .image-col.mobile-active {
     display: block;
   }
-}
-
-#back-arrow {
-    cursor: pointer;
-    padding-right: 2px;
-}
-
-#back-arrow.inactive {
-    color: #aaa;
-    cursor: default;
-}
-
-#back-arrow.inactive:hover {
-    color: #aaa;
-}
-
-#back-arrow:hover {
-    color: #666;
 }
