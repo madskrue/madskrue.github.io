@@ -112,14 +112,11 @@ header img:active {
 }
 
 #play-text {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: normal;
     cursor: default;
     display: inline-block;
     white-space: nowrap;
-    font-size: 9px;
-    font-weight: normal;
-    cursor: default;
 }
 
 #play-btn {
