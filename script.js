@@ -157,7 +157,7 @@ playBtn.addEventListener('click', () => {
     musicSource = null;
     musicPlaying = false;
     playBtn.textContent = '▶︎';
-    document.getElementById('play-text').textContent = 'press play';
+    document.getElementById('play-text').textContent = 'play';
   } else {
     musicSource = audioCtx.createBufferSource();
     musicSource.buffer = musicBuffer;
@@ -167,7 +167,7 @@ playBtn.addEventListener('click', () => {
     musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
     playBtn.textContent = '◼︎';
-    document.getElementById('play-text').textContent = 'now playing: success.mp3';
+    document.getElementById('play-text').textContent = 'stop';
   }
 });
 

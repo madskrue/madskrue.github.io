@@ -97,8 +97,7 @@ header img:active {
     cursor: default;
     display: inline-block;
     white-space: nowrap;
-    animation: løb 5s ease-out forwards;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: normal;
     cursor: default;
 }
@@ -108,12 +107,6 @@ header img:active {
     margin-right: 6px;
 }
 
-@keyframes løb {
-    0% {transform: translateX(-30vw); opacity: 0;}
-    10% {filter: blur(1px);}
-    90% {opacity: 1;}
-    100% {transform: translateX(0); filter: blur(0); opacity: 1;}
-}
 
 
 
