@@ -202,3 +202,19 @@ playBtn.addEventListener('click', () => {
 document.addEventListener('pointerdown', () => {
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }, { once: true });
+
+// Musikselector
+const playSelect = document.getElementById('play-selector');
+const popup = document.getElementById('popup');
+const popupBg = document.getElementById('popupbg');
+const popupX = document.getElementById('popupkryds');
+
+playSelect.addEventListener('click', () => {
+  popup.classList.add('visible');
+  popupBg.classList.add('visible');
+})
+
+popupX.addEventListener('click', () => {
+  popup.classList.remove('visible');
+  popupBg.classList.remove('visible');
+})

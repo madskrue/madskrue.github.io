@@ -20,6 +20,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="256x256" href="billeder/ffbaff-256c.png">
+    <link rel="apple-touch-startup-image" href="billeder/ffbaff-256c.png">
 </head>
 
 <body>
@@ -33,9 +34,19 @@
         </span>
         <span id="header-højre">
             <span id="play-text">play</span>
+            <span id="play-selector" style="display: none;">◉</span>
             <span id="play-btn">▶︎</span>
         </span>
     </header>
+
+    <!-- Modal -->
+     <div id="popup">
+        <p id="popupkryds">✕</p>
+        <p>success.mp3</p>
+        <p>slow.mp3</p>
+        <p>blow my ashes like rose petals.mp3</p>
+     </div>
+     <div id="popupbg"></div>
 
     <!-- Layout -->
     <main class="layout">
