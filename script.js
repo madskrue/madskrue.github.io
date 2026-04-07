@@ -5,7 +5,15 @@ const content = document.getElementById('content');
 const imageCol = document.getElementById('image-col');
 const backArrow = document.getElementById('back-arrow');
 const playBtn = document.getElementById('play-btn');
+const playSelect = document.getElementById('play-selector');
+const popup = document.getElementById('popup');
+const popupBg = document.getElementById('popupbg');
+const popupX = document.getElementById('popupkryds');
+const valg1 = document.getElementById('valg1');
+const valg2 = document.getElementById('valg2');
 let mobileDepth = 0;
+
+
 
 // Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -16,10 +24,14 @@ let musicPlaying = false;
 let musicStartTime = 0;
 let musicOffset = 0;
 
+
+
 // Afgør device
 function isMobile() {
   return window.innerWidth <= 600;
 }
+
+
 
 // Mobil: Navigationsdybde
 function setMobileDepth(depth) {
@@ -32,6 +44,8 @@ function setMobileDepth(depth) {
   }
 }
 
+
+
 // Mobil init: Nulstil til menu
 function initMobileView() {
   if (isMobile()) {
@@ -41,16 +55,22 @@ function initMobileView() {
   }
 }
 
+
+
 // Mobil: Når siden loades, init
 document.addEventListener('DOMContentLoaded', () => {
   initMobileView();
 });
+
+
 
 // Hent items
 function getItems(key) {
   const template = document.getElementById(`data-${key}`);
   return Array.from(template.content.querySelectorAll('item, a'));
 }
+
+
 
 // Header
 document.getElementById('header-title').addEventListener('click', () => {
@@ -68,6 +88,8 @@ document.getElementById('header-title').addEventListener('click', () => {
   }
 });
 
+
+
 // Tilbage-pil
 backArrow.addEventListener('click', () => {
   if (mobileDepth === 2) {
@@ -82,6 +104,8 @@ backArrow.addEventListener('click', () => {
   }
 });
 
+
+
 // Menu-navigation
 menu.forEach(item => {
   item.addEventListener('click', () => {
@@ -91,6 +115,8 @@ menu.forEach(item => {
     showSubmenu(key);
   });
 });
+
+
 
 // Hent billeder når menupunkt åbens
 function preloadImages(key) {
@@ -102,6 +128,8 @@ function preloadImages(key) {
     el.src = img.getAttribute('src');
   });
 }
+
+
 
 // Submenu-navigation
 function showSubmenu(key) {
@@ -150,6 +178,8 @@ function showSubmenu(key) {
   }
 }
 
+
+
 // Dui-lyd
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
@@ -168,6 +198,8 @@ logo.addEventListener('click', () => {
   gain.connect(audioCtx.destination);
   source.start(0);
 });
+
+
 
 // Musikafspilning
 fetch('lyd/success.mp3')
@@ -203,18 +235,52 @@ document.addEventListener('pointerdown', () => {
   if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }, { once: true });
 
-// Musikselector
-const playSelect = document.getElementById('play-selector');
-const popup = document.getElementById('popup');
-const popupBg = document.getElementById('popupbg');
-const popupX = document.getElementById('popupkryds');
 
+
+// Musikselector
 playSelect.addEventListener('click', () => {
   popup.classList.add('visible');
   popupBg.classList.add('visible');
 })
 
 popupX.addEventListener('click', () => {
+  popup.classList.remove('visible');
+  popupBg.classList.remove('visible');
+})
+
+function loadAndPlay(filePath) {
+  if (musicSource) {
+    musicSource.stop();
+    musicSource = null;
+    musicPlaying = false;
+  }
+  musicOffset = 0;
+
+  fetch(filePath)
+    .then(res => res.arrayBuffer())
+    .then(data => audioCtx.decodeAudioData(data))
+    .then(buffer => {
+      musicBuffer = buffer;
+      musicSource = audioCtx.createBufferSource();
+      musicSource.buffer = musicBuffer;
+      musicSource.loop = true;
+      musicSource.connect(audioCtx.destination);
+      musicSource.start(0, 0);
+      musicStartTime = audioCtx.currentTime;
+      musicPlaying = true;
+      playBtn.textContent = '◼︎';
+      document.getElementById('play-text').textContent = 'stop';
+    });
+}
+
+valg1.addEventListener('click', () => {
+  loadAndPlay ('lyd/success.mp3');
+  popup.classList.remove('visible');
+  popupBg.classList.remove('visible');
+})
+
+valg2.addEventListener('click', () => {
+  loadAndPlay ('lyd/stikling.mp3');
   popup.classList.remove('visible');
   popupBg.classList.remove('visible');
 })
