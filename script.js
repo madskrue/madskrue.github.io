@@ -207,7 +207,7 @@ function playDui() {
   const source = audioCtx.createBufferSource();
   source.buffer = clickBuffer;
   const gain = audioCtx.createGain();
-  gain.gain.value = 0.5;
+  gain.gain.value = 0.25;
   source.connect(gain);
   gain.connect(audioCtx.destination);
   source.start(0);
