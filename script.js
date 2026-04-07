@@ -10,6 +10,7 @@ const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 let mobileDepth = 0;
+let currentTrackName = '';
 
 
 
@@ -179,6 +180,10 @@ function showSubmenu(key) {
 
 
 // Dui-lyd
+document.addEventListener('pointerdown', () => {
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}, { once: true });
+
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
   .then(data => audioCtx.decodeAudioData(data))
@@ -225,13 +230,9 @@ playBtn.addEventListener('click', () => {
     musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
     playBtn.textContent = '◼︎';
-    document.getElementById('play-text').textContent = 'stop';
+    document.getElementById('play-text').textContent = currentTrackName;
   }
 });
-
-document.addEventListener('pointerdown', () => {
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-}, { once: true });
 
 
 
@@ -246,7 +247,7 @@ popupX.addEventListener('click', () => {
   popupBg.classList.remove('visible');
 })
 
-function loadAndPlay(filePath) {
+function loadAndPlay(filePath, trackName) {
   if (musicSource) {
     musicSource.stop();
     musicSource = null;
@@ -256,6 +257,8 @@ function loadAndPlay(filePath) {
 
   playBtn.textContent = '⋯';
   playBtn.classList.add('inactive');
+
+  currentTrackName = trackName;
 
   fetch(filePath)
     .then(res => res.arrayBuffer())
@@ -271,13 +274,13 @@ function loadAndPlay(filePath) {
       musicPlaying = true;
       playBtn.classList.remove('inactive');
       playBtn.textContent = '◼︎';
-      document.getElementById('play-text').textContent = 'stop';
+      document.getElementById('play-text').textContent = currentTrackName;
     });
 }
 
 document.querySelectorAll('.musik-valg').forEach(el => {
   el.addEventListener('click', () => {
-    loadAndPlay(el.dataset.src);
+    loadAndPlay(el.dataset.src, el.textContent);
     popup.classList.remove('visible');
     popupBg.classList.remove('visible');
   });
