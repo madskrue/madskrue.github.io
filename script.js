@@ -258,6 +258,8 @@ function loadAndPlay(filePath) {
   }
   musicOffset = 0;
 
+  playBtn.textContent = '⧖';
+
   fetch(filePath)
     .then(res => res.arrayBuffer())
     .then(data => audioCtx.decodeAudioData(data))
