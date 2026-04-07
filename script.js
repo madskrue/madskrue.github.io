@@ -257,6 +257,7 @@ function loadAndPlay(filePath, trackName) {
 
   playBtn.textContent = '⋯';
   playBtn.classList.add('inactive');
+  document.getElementById('play-text').textContent = "loading...";
 
   currentTrackName = trackName;
 
