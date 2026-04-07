@@ -10,7 +10,7 @@ const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 let mobileDepth = 0;
-let currentTrackName = '';
+let currentTrackName = 'success.mp3';
 
 
 
