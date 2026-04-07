@@ -190,7 +190,10 @@ fetch('lyd/DuiB.mp3')
   .then(buffer => { clickBuffer = buffer; });
 
 const logo = document.querySelector('header img');
-logo.addEventListener('click', () => {
+
+logo.addEventListener('click', playDui);
+
+function playDui() {
   if (!clickBuffer) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();
   const source = audioCtx.createBufferSource();
@@ -200,7 +203,7 @@ logo.addEventListener('click', () => {
   source.connect(gain);
   gain.connect(audioCtx.destination);
   source.start(0);
-});
+}
 
 
 
@@ -285,4 +288,95 @@ document.querySelectorAll('.musik-valg').forEach(el => {
     popup.classList.remove('visible');
     popupBg.classList.remove('visible');
   });
+});
+
+
+
+// Logoanimation
+window.addEventListener("load", () => {
+  const logo = document.getElementById("logo");
+
+  // 1. Find slutpositionen
+  const rect = logo.getBoundingClientRect();
+
+  // 2. Beregn midten af logoet i dets slutposition (Target Center)
+  const endX = rect.left + (rect.width / 2);
+  const endY = rect.top + (rect.height / 2);
+  
+  // 3. Find midten af skærmen (Start Center)
+  const startX = window.innerWidth / 2;
+  const startY = window.innerHeight / 2;
+
+  // 4. Aktiver animation mode
+  logo.classList.add("animating");
+
+  // FIX: Sæt logoets faktiske størrelse op, mens det er revet ud af layoutet.
+  // Dette tvinger browseren til at generere en GPU-tekstur i høj opløsning.
+  logo.style.width = "120px";
+  logo.style.height = "120px";
+
+  // 5. Tegn stien fra center til center
+  const swingX1 = window.innerWidth * 0.2; 
+  const swingY1 = window.innerHeight * 0.2;
+  const swingX2 = window.innerWidth * 0.8; 
+  const swingY2 = window.innerHeight * 0;
+
+  const path = `path("M ${startX} ${startY} C ${startX + swingX1} ${startY + swingY1}, ${endX + swingX2} ${endY + swingY2}, ${endX} ${endY}")`;
+  logo.style.offsetPath = path;
+
+  // 6. Kør animationen
+  // Vi starter nu 1:1 (hvilket er 120px visuelt) og skalerer NED.
+  const animation = logo.animate(
+    [
+      { 
+        offsetDistance: "0%", 
+        transform: "scale(1)", 
+      },
+      { 
+        offsetDistance: "50%", 
+        transform: "scale(0.4)",
+      },
+      {
+        offsetDistance: "100%",
+        transform: "scale(0.1)"
+      }
+    ], 
+    {
+      duration: 3000,
+      easing: "cubic-bezier(0.6, 0, 0.8, 0.3)", 
+      fill: "forwards"
+    }
+  );
+
+  // 7. Ryd op
+  animation.onfinish = () => {
+    // 1. Skriv animationens slut-tilstand (scale 0.33 og position) direkte til elementet
+    try {
+      animation.commitStyles();
+    } catch (e) {
+      // Backup hvis browseren er gammel:
+      logo.style.transform = "scale(0.1)";
+    }
+
+    // 2. Stop animationen helt, så den ikke længere "ejer" elementet
+    animation.cancel();
+
+    // 3. Fjern klassen og nulstil de ting, der flyttede logoet væk fra headeren
+    logo.classList.remove("animating");
+    logo.style.offsetPath = "none";
+    logo.style.position = ""; // Vigtigt: gå tilbage til 'relative' (fra CSS)
+    
+    // 4. Nulstil størrelsen og transform, så det passer til 12x12px i din header
+    logo.style.width = "";
+    logo.style.height = "";
+    logo.style.transform = "";
+    
+    // 5. Force-tjek at det er synligt
+    logo.style.opacity = "1";
+    logo.style.visibility = "visible";
+
+    playDui();
+    
+    console.log("Animation færdig - logo nulstillet til header");
+  };
 });

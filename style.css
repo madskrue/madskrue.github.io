@@ -139,6 +139,20 @@ header img:active {
     color: #ffbaff;
 }
 
+#logo {
+    position: relative;
+    z-index: 100;
+    width: 12px;
+    height: 12px;
+}
+
+#logo.animating {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
 
 
 /* Modal */
