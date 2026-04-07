@@ -11,6 +11,8 @@ const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 const valg1 = document.getElementById('valg1');
 const valg2 = document.getElementById('valg2');
+const valg3 = document.getElementById('valg3');
+const valg4 = document.getElementById('valg4');
 let mobileDepth = 0;
 
 
@@ -281,6 +283,18 @@ valg1.addEventListener('click', () => {
 
 valg2.addEventListener('click', () => {
   loadAndPlay ('lyd/stikling.mp3');
+  popup.classList.remove('visible');
+  popupBg.classList.remove('visible');
+})
+
+valg3.addEventListener('click', () => {
+  loadAndPlay ('lyd/lonely.mp3');
+  popup.classList.remove('visible');
+  popupBg.classList.remove('visible');
+})
+
+valg4.addEventListener('click', () => {
+  loadAndPlay ('lyd/cellulose.mp3');
   popup.classList.remove('visible');
   popupBg.classList.remove('visible');
 })
