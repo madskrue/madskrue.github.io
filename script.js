@@ -254,7 +254,7 @@ function loadAndPlay(filePath) {
   }
   musicOffset = 0;
 
-  playBtn.textContent = '⧖';
+  playBtn.textContent = '⨠';
   playBtn.classList.add('inactive');
 
   fetch(filePath)
