@@ -180,9 +180,17 @@ function showSubmenu(key) {
 
 
 // Dui-lyd
-document.addEventListener('pointerdown', () => {
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-}, { once: true });
+const resumeAudio = async () => {
+    if (audioCtx.state === 'suspended') {
+        await audioCtx.resume();
+    }
+};
+
+// Væk audioctx ved første interaktion
+window.addEventListener('click', resumeAudio, { once: true });
+window.addEventListener('touchstart', resumeAudio, { once: true });
+window.addEventListener('mousedown', resumeAudio, { once: true });
+window.addEventListener('keydown', resumeAudio, { once: true });
 
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
