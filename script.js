@@ -9,10 +9,6 @@ const playSelect = document.getElementById('play-selector');
 const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
-const valg1 = document.getElementById('valg1');
-const valg2 = document.getElementById('valg2');
-const valg3 = document.getElementById('valg3');
-const valg4 = document.getElementById('valg4');
 let mobileDepth = 0;
 
 
@@ -259,6 +255,7 @@ function loadAndPlay(filePath) {
   musicOffset = 0;
 
   playBtn.textContent = '⧖';
+  playBtn.classList.add('inactive');
 
   fetch(filePath)
     .then(res => res.arrayBuffer())
@@ -272,31 +269,16 @@ function loadAndPlay(filePath) {
       musicSource.start(0, 0);
       musicStartTime = audioCtx.currentTime;
       musicPlaying = true;
+      playBtn.classList.remove('inactive');
       playBtn.textContent = '◼︎';
       document.getElementById('play-text').textContent = 'stop';
     });
 }
 
-valg1.addEventListener('click', () => {
-  loadAndPlay ('lyd/success.mp3');
-  popup.classList.remove('visible');
-  popupBg.classList.remove('visible');
-})
-
-valg2.addEventListener('click', () => {
-  loadAndPlay ('lyd/stikling.mp3');
-  popup.classList.remove('visible');
-  popupBg.classList.remove('visible');
-})
-
-valg3.addEventListener('click', () => {
-  loadAndPlay ('lyd/lonely.mp3');
-  popup.classList.remove('visible');
-  popupBg.classList.remove('visible');
-})
-
-valg4.addEventListener('click', () => {
-  loadAndPlay ('lyd/cellulose.mp3');
-  popup.classList.remove('visible');
-  popupBg.classList.remove('visible');
-})
+document.querySelectorAll('.musik-valg').forEach(el => {
+  el.addEventListener('click', () => {
+    loadAndPlay(el.dataset.src);
+    popup.classList.remove('visible');
+    popupBg.classList.remove('visible');
+  });
+});

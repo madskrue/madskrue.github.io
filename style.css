@@ -122,6 +122,11 @@ header img:active {
     cursor: pointer;
 }
 
+#play-btn.inactive {
+    cursor: default;
+    pointer-events: none;
+}
+
 #play-selector {
     cursor: pointer;
 }
