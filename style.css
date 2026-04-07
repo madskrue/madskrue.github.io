@@ -122,6 +122,10 @@ header img:active {
     cursor: pointer;
 }
 
+#play-btn:hover {
+    color: #ffbaff;
+}
+
 #play-btn.inactive {
     cursor: default;
     pointer-events: none;
@@ -129,6 +133,10 @@ header img:active {
 
 #play-selector {
     cursor: pointer;
+}
+
+#play-selector:hover {
+    color: #ffbaff;
 }
 
 
@@ -171,6 +179,10 @@ header img:active {
 
 #popup-play {
     cursor: default;
+}
+
+#popupkryds:hover {
+    color: #999 !important;
 }
 
 #popupbg {
