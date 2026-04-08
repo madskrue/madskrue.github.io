@@ -386,3 +386,15 @@ window.addEventListener("load", () => {
     window.addEventListener(evt, startIntro);
   });
 });
+
+
+
+// Viewport size
+const vpSize = document.getElementById('viewport-size');
+
+function updateVpSize() {
+  vpSize.textContent = 'viewport: ' + window.innerWidth + ' × ' + window.innerHeight;
+}
+
+updateVpSize();
+window.addEventListener('resize', updateVpSize);
