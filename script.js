@@ -202,6 +202,7 @@ const logo = document.querySelector('header img');
 logo.addEventListener('click', playDui);
 
 function playDui() {
+  if (logo.classList.contains('animating')) return;
   if (!clickBuffer) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();
   const source = audioCtx.createBufferSource();
@@ -347,16 +348,14 @@ window.addEventListener("load", () => {
         { 
           offsetDistance: "0%", 
           transform: "scale(1)",
-          offsetRotate: "0deg" // Holder logoet lodret hele vejen
         },
         { 
           offsetDistance: "100%",
-          transform: "scale(0.1)", // 120px * 0.1 = 12px
-          offsetRotate: "0deg"
+          transform: "scale(0.1)",
         }
       ], 
       {
-        duration: 2500, // Lidt hurtigere føles ofte mere "snappy"
+        duration: 2500,
         easing: "cubic-bezier(0.6, 0, 0.8, 0.3)", 
         fill: "forwards"
       }
