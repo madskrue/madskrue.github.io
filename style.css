@@ -317,7 +317,8 @@ header img:active {
 }
 
 .music-link:hover {
-    color: #ffbaff;
+    background-color: #ffbaff;
+    border-radius: 6px;
 }
 
 
