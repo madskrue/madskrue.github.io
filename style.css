@@ -44,7 +44,7 @@ a:hover {
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(80px, 100px) minmax(200px, 250px) minmax(250px, 400px) minmax(400px, 1fr);
+    grid-template-columns: minmax(80px, 100px) minmax(150px, 200px) minmax(200px, 440px) minmax(400px, 1fr);
     flex: 1;
     overflow: hidden;
 }
