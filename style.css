@@ -301,6 +301,7 @@ header img:active {
     font-weight: normal;
     overflow-y: auto;
     height: 100%;
+    white-space: pre-wrap;
 }
 
 .content:not(:empty) {
