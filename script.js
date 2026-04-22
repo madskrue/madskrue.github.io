@@ -111,7 +111,6 @@ menu.forEach(item => {
   item.addEventListener('click', () => {
     menu.forEach(m => m.classList.remove('active'));
     item.classList.add('active');
-    document.querySelector('.layout').classList.remove('images-only');
     const key = item.dataset.target;
     showSubmenu(key);
   });
