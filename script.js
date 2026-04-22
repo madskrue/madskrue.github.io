@@ -74,6 +74,7 @@ function getItems(key) {
 // Header
 document.getElementById('header-title').addEventListener('click', () => {
   menu.forEach(m => m.classList.remove('active'));
+  document.querySelector('.layout').classList.remove('images-only');
   submenu.innerHTML = "";
   content.innerHTML = "";
   imageCol.innerHTML = "";
@@ -110,6 +111,7 @@ menu.forEach(item => {
   item.addEventListener('click', () => {
     menu.forEach(m => m.classList.remove('active'));
     item.classList.add('active');
+    document.querySelector('.layout').classList.remove('images-only');
     const key = item.dataset.target;
     showSubmenu(key);
   });
@@ -147,7 +149,17 @@ function showSubmenu(key) {
       el.onclick = () => {
         document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
         el.classList.add('active');
-        content.innerHTML = item.innerHTML;
+
+        const imagesOnly = item.hasAttribute('images-only');
+
+        if (imagesOnly) {
+          content.innerHTML = '';
+          document.querySelector('.layout').classList.add('images-only');
+        } else {
+          content.innerHTML = item.innerHTML;
+          document.querySelector('.layout').classList.remove('images-only');
+        }
+
         const images = Array.from(item.querySelectorAll('images img'));
         if (images.length) {
           imageCol.innerHTML = images.map(img =>

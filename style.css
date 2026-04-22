@@ -49,6 +49,10 @@ a:hover {
     overflow: hidden;
 }
 
+.layout.images-only {
+  grid-template-columns: minmax(80px, 100px) minmax(150px, 200px) minmax(400px, 1fr);
+}
+
 
 
 /* Header */
@@ -320,6 +324,10 @@ header img:active {
 .music-link:hover {
     background-color: #ffbaff;
     border-radius: 6px;
+}
+
+.content:empty {
+    display: none;
 }
 
 
