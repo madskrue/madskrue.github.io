@@ -387,4 +387,10 @@ header img:active {
   .image-col.mobile-active {
     display: block;
   }
+
+  a.touched {
+    color: #333;
+    background-color: #ffbaff;
+    border-radius: 6px;
+  }
 }

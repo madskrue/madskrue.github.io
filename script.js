@@ -61,7 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileView();
 });
 
-
+// Touch-highlight på links
+document.querySelectorAll('a').forEach(link => {
+  link.addEventListener('touchstart', () => {
+    link.classList.add('touched');
+  });
+  
+  link.addEventListener('touchend', () => {
+    link.classList.remove('touched');
+  });
+});
 
 // Hent items
 function getItems(key) {
