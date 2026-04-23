@@ -422,3 +422,9 @@ function updateVpSize() {
 
 updateVpSize();
 window.addEventListener('resize', updateVpSize);
+
+// Noter til selv
+// git status
+// git add .
+// git commit -m "kommentar"
+// git push
