@@ -39,7 +39,9 @@ a {
 }
 
 a:hover {
-  color: #666;
+  color: #333;
+  background-color: #ffbaff;
+  border-radius: 6px;
 }
 
 .layout {
@@ -247,6 +249,7 @@ header img:active {
     margin-bottom: 6px;
     cursor: pointer;
     font-weight: bold;
+    width: fit-content;
 }
 
 .menu p:hover {
@@ -275,6 +278,7 @@ header img:active {
 .submenu p {
     margin-bottom: 6px;
     cursor: pointer;
+    width: fit-content;
 }
 
 .submenu p:hover {
@@ -321,11 +325,6 @@ header img:active {
     display: none;
 }
 
-.music-link:hover {
-    background-color: #ffbaff;
-    border-radius: 6px;
-}
-
 .content:empty {
     display: none;
 }
@@ -354,6 +353,7 @@ header img:active {
     color: #666;
     font-size: 9px;
     padding-bottom: 6px;
+    cursor: default;
 }
 
 
