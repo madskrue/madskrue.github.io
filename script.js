@@ -72,6 +72,8 @@ document.querySelectorAll('a').forEach(link => {
   });
 });
 
+
+
 // Hent items
 function getItems(key) {
   const template = document.getElementById(`data-${key}`);
