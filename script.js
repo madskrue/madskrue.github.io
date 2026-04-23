@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileView();
 });
 
+
+
 // Touch-highlight på links
 document.querySelectorAll('a').forEach(link => {
   link.addEventListener('touchstart', () => {
