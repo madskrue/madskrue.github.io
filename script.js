@@ -9,10 +9,9 @@ const playSelect = document.getElementById('play-selector');
 const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
+const logo = document.getElementById("logo");
 let mobileDepth = 0;
 let currentTrackName = 'success.mp3';
-
-
 
 // Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -24,6 +23,8 @@ let musicStartTime = 0;
 let musicOffset = 0;
 
 
+
+// --- I N I T I A L I S E R I N G ---
 
 // Afgør device
 function isMobile() {
@@ -75,6 +76,8 @@ document.querySelectorAll('a').forEach(link => {
 });
 
 
+
+// --- N A V I G A T I O N ---
 
 // Hent items
 function getItems(key) {
@@ -203,12 +206,16 @@ function showSubmenu(key) {
 
 
 
+// --- A U D I O ---
+
 // Dui-lyd
 const resumeAudio = async () => {
     if (audioCtx.state === 'suspended') {
         await audioCtx.resume();
     }
 };
+
+
 
 // Væk audioctx ved første interaktion
 window.addEventListener('click', resumeAudio, { once: true });
@@ -220,8 +227,6 @@ fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
   .then(data => audioCtx.decodeAudioData(data))
   .then(buffer => { clickBuffer = buffer; });
-
-const logo = document.querySelector('header img');
 
 logo.addEventListener('click', playDui);
 
@@ -271,6 +276,8 @@ playBtn.addEventListener('click', () => {
 });
 
 
+
+// --- U S E R   I N T E R F A C E ---
 
 // Musikselector
 playSelect.addEventListener('click', () => {
@@ -327,7 +334,6 @@ document.querySelectorAll('.musik-valg').forEach(el => {
 
 // Logoanimation
 window.addEventListener("load", () => {
-  const logo = document.getElementById("logo");
 
   // 1. Find slutpositionen (Target) mens logoet stadig er 12px i headeren
   const rect = logo.getBoundingClientRect();
@@ -410,21 +416,3 @@ window.addEventListener("load", () => {
     window.addEventListener(evt, startIntro);
   });
 });
-
-
-
-// Viewport size
-const vpSize = document.getElementById('viewport-size');
-
-function updateVpSize() {
-  vpSize.textContent = 'viewport: ' + window.innerWidth + ' × ' + window.innerHeight;
-}
-
-updateVpSize();
-window.addEventListener('resize', updateVpSize);
-
-// Noter til selv
-// git status
-// git add .
-// git commit -m "kommentar"
-// git push
