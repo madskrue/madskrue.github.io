@@ -1,4 +1,5 @@
 // Hent alt relevant
+const layout = document.querySelector('.layout');
 const menu = document.querySelectorAll('.menu p');
 const submenu = document.getElementById('submenu');
 const content = document.getElementById('content');
@@ -80,7 +81,7 @@ document.querySelectorAll('a').forEach(link => {
 // --- N A V I G A T I O N ---
 
 // Hent items
-function getItems(key) {
+function hentItems(key) {
   const template = document.getElementById(`data-${key}`);
   return Array.from(template.content.querySelectorAll('item, a'));
 }
@@ -90,7 +91,7 @@ function getItems(key) {
 // Header
 document.getElementById('header-title').addEventListener('click', () => {
   menu.forEach(m => m.classList.remove('active'));
-  document.querySelector('.layout').classList.remove('images-only');
+  layout.classList.remove('images-only');
   submenu.innerHTML = "";
   content.innerHTML = "";
   imageCol.innerHTML = "";
@@ -128,14 +129,14 @@ menu.forEach(item => {
     menu.forEach(m => m.classList.remove('active'));
     item.classList.add('active');
     const key = item.dataset.target;
-    showSubmenu(key);
+    visSubmenu(key);
   });
 });
 
 
 
 // Hent billeder når menupunkt åbens
-function preloadImages(key) {
+function preloadBilleder(key) {
   const template = document.getElementById(`data-${key}`);
   if (!template) return;
   
@@ -148,12 +149,12 @@ function preloadImages(key) {
 
 
 // Submenu-navigation
-function showSubmenu(key) {
+function visSubmenu(key) {
   submenu.innerHTML = "";
   
-  preloadImages(key);
+  preloadBilleder(key);
 
-  getItems(key).forEach(item => {
+  hentItems(key).forEach(item => {
     if (item.tagName === 'A') {
       const el = item.cloneNode(true);
       el.textContent = item.getAttribute('name');
@@ -162,37 +163,7 @@ function showSubmenu(key) {
       const el = document.createElement('p');
       el.textContent = item.getAttribute('name');
       el.onclick = () => {
-        document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
-        el.classList.add('active');
-
-        const imagesOnly = item.hasAttribute('images-only');
-
-        if (imagesOnly) {
-          content.innerHTML = '';
-          document.querySelector('.layout').classList.add('images-only');
-        } else {
-          content.innerHTML = item.innerHTML;
-          document.querySelector('.layout').classList.remove('images-only');
-        }
-
-        const images = Array.from(item.querySelectorAll('images img'));
-        if (images.length) {
-          imageCol.innerHTML = images.map(img =>
-            `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
-            (img.getAttribute('caption')
-              ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
-              : '')
-          ).join('');
-        } else {
-          imageCol.innerHTML = '';
-        }
-        if (isMobile()) {
-          document.querySelector('.submenu').classList.remove('mobile-active');
-          content.classList.add('mobile-active');
-          imageCol.classList.add('mobile-active');
-          setMobileDepth(2);
-        }
-      };
+      visIndhold(item, el)};
       submenu.appendChild(el);
     }
   });
@@ -203,6 +174,42 @@ function showSubmenu(key) {
     setMobileDepth(1);
   }
 }
+
+
+
+// Vis indhold
+function visIndhold(item, el) {
+  document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+
+  const imagesOnly = item.hasAttribute('images-only');
+
+  if (imagesOnly) {
+    content.innerHTML = '';
+    layout.classList.add('images-only');
+  } else {
+    content.innerHTML = item.innerHTML;
+    layout.classList.remove('images-only');
+  }
+
+  const images = Array.from(item.querySelectorAll('images img'));
+  if (images.length) {
+    imageCol.innerHTML = images.map(img =>
+      `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
+      (img.getAttribute('caption')
+        ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
+        : '')
+    ).join('');
+  } else {
+    imageCol.innerHTML = '';
+  }
+  if (isMobile()) {
+    document.querySelector('.submenu').classList.remove('mobile-active');
+    content.classList.add('mobile-active');
+    imageCol.classList.add('mobile-active');
+    setMobileDepth(2);
+  }
+  }
 
 
 
@@ -228,9 +235,9 @@ fetch('lyd/DuiB.mp3')
   .then(data => audioCtx.decodeAudioData(data))
   .then(buffer => { clickBuffer = buffer; });
 
-logo.addEventListener('click', playDui);
+logo.addEventListener('click', afspilDui);
 
-function playDui() {
+function afspilDui() {
   if (logo.classList.contains('animating')) return;
   if (!clickBuffer) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -290,7 +297,7 @@ popupX.addEventListener('click', () => {
   popupBg.classList.remove('visible');
 })
 
-function loadAndPlay(filePath, trackName) {
+function loadOgAfspil(filePath, trackName) {
   if (musicSource) {
     musicSource.stop();
     musicSource = null;
@@ -324,7 +331,7 @@ function loadAndPlay(filePath, trackName) {
 
 document.querySelectorAll('.musik-valg').forEach(el => {
   el.addEventListener('click', () => {
-    loadAndPlay(el.dataset.src, el.textContent);
+    loadOgAfspil(el.dataset.src, el.textContent);
     popup.classList.remove('visible');
     popupBg.classList.remove('visible');
   });
@@ -408,7 +415,7 @@ window.addEventListener("load", () => {
       logo.style.height = "";
       logo.style.transform = "";
       
-      playDui();
+      afspilDui();
     };
   }
 
