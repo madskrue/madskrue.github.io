@@ -12,7 +12,6 @@ const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 const logo = document.getElementById("logo");
 let mobileDepth = 0;
-let currentTrackName = 'success.mp3';
 
 // Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -22,10 +21,15 @@ let musicSource;
 let musicPlaying = false;
 let musicStartTime = 0;
 let musicOffset = 0;
+let currentTrackName = 'success.mp3';
 
 
 
-// --- I N I T I A L I S E R I N G ---
+
+
+//=============================
+// I N I T I A L I S E R I N G
+//=============================
 
 // Afgør device
 function isMobile() {
@@ -78,7 +82,11 @@ document.querySelectorAll('a').forEach(link => {
 
 
 
-// --- N A V I G A T I O N ---
+
+
+//=====================
+// N A V I G A T I O N
+//=====================
 
 // Hent items
 function hentItems(key) {
@@ -209,11 +217,15 @@ function visIndhold(item, el) {
     imageCol.classList.add('mobile-active');
     setMobileDepth(2);
   }
-  }
+}
 
 
 
-// --- A U D I O ---
+
+
+//===========
+// A U D I O
+//===========
 
 // Dui-lyd
 const resumeAudio = async () => {
@@ -284,7 +296,11 @@ playBtn.addEventListener('click', () => {
 
 
 
-// --- U S E R   I N T E R F A C E ---
+
+
+//=============================
+// U S E R   I N T E R F A C E
+//=============================
 
 // Musikselector
 playSelect.addEventListener('click', () => {
