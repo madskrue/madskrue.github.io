@@ -91,7 +91,7 @@ document.querySelectorAll('a').forEach(link => {
 // Hent items
 function hentItems(key) {
   const template = document.getElementById(`data-${key}`);
-  return Array.from(template.content.querySelectorAll('item, a'));
+  return Array.from(template.content.querySelectorAll('item'));
 }
 
 
@@ -163,17 +163,11 @@ function visSubmenu(key) {
   preloadBilleder(key);
 
   hentItems(key).forEach(item => {
-    if (item.tagName === 'A') {
-      const el = item.cloneNode(true);
-      el.textContent = item.getAttribute('name');
-      submenu.appendChild(el);
-    } else {
       const el = document.createElement('p');
       el.textContent = item.getAttribute('name');
       el.onclick = () => {
       visIndhold(item, el)};
       submenu.appendChild(el);
-    }
   });
 
   if (isMobile()) {
@@ -190,33 +184,31 @@ function visIndhold(item, el) {
   document.querySelectorAll('.submenu p').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
 
-  const imagesOnly = item.hasAttribute('images-only');
+  visTekst(item);
+  visBilleder(item);
 
-  if (imagesOnly) {
-    content.innerHTML = '';
-    layout.classList.add('images-only');
-  } else {
-    content.innerHTML = item.innerHTML;
-    layout.classList.remove('images-only');
-  }
-
-  const images = Array.from(item.querySelectorAll('images img'));
-  if (images.length) {
-    imageCol.innerHTML = images.map(img =>
-      `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
-      (img.getAttribute('caption')
-        ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
-        : '')
-    ).join('');
-  } else {
-    imageCol.innerHTML = '';
-  }
   if (isMobile()) {
     document.querySelector('.submenu').classList.remove('mobile-active');
     content.classList.add('mobile-active');
     imageCol.classList.add('mobile-active');
     setMobileDepth(2);
   }
+}
+
+function visTekst(item) {
+  const imagesOnly = item.hasAttribute('images-only');
+  content.innerHTML = imagesOnly ? '' : item.innerHTML;
+  layout.classList.toggle('images-only', imagesOnly);
+}
+
+function visBilleder(item) {
+  const images = Array.from(item.querySelectorAll('images img'));
+  imageCol.innerHTML = images.map(img =>
+    `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
+    (img.getAttribute('caption')
+      ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
+      : '')
+  ).join('');
 }
 
 
@@ -227,25 +219,26 @@ function visIndhold(item, el) {
 // A U D I O
 //===========
 
+// Audio-initiatlisering
+function resumeOnce() {
+  audioCtx.resume();
+  ['click', 'touchstart', 'mousedown', 'keydown'].forEach(evt =>
+    window.removeEventListener(evt, resumeOnce)
+  );
+}
+
+['click', 'touchstart', 'mousedown', 'keydown'].forEach(evt =>
+  window.addEventListener(evt, resumeOnce)
+);
+
+
+
 // Dui-lyd
-const resumeAudio = async () => {
-    if (audioCtx.state === 'suspended') {
-        await audioCtx.resume();
-    }
-};
-
-
-
-// Væk audioctx ved første interaktion
-window.addEventListener('click', resumeAudio, { once: true });
-window.addEventListener('touchstart', resumeAudio, { once: true });
-window.addEventListener('mousedown', resumeAudio, { once: true });
-window.addEventListener('keydown', resumeAudio, { once: true });
-
 fetch('lyd/DuiB.mp3')
   .then(res => res.arrayBuffer())
   .then(data => audioCtx.decodeAudioData(data))
-  .then(buffer => { clickBuffer = buffer; });
+  .then(buffer => { clickBuffer = buffer; })
+  .catch(console.error);
 
 logo.addEventListener('click', afspilDui);
 
@@ -268,7 +261,8 @@ function afspilDui() {
 fetch('lyd/success.mp3')
   .then(res => res.arrayBuffer())
   .then(data => audioCtx.decodeAudioData(data))
-  .then(buffer => { musicBuffer = buffer; });
+  .then(buffer => { musicBuffer = buffer; })
+  .catch(console.error);
 
 playBtn.addEventListener('click', () => {
   if (!musicBuffer) return;
@@ -342,7 +336,8 @@ function loadOgAfspil(filePath, trackName) {
       playBtn.classList.remove('inactive');
       playBtn.textContent = '◼︎';
       document.getElementById('play-text').textContent = currentTrackName;
-    });
+    })
+    .catch(console.error);
 }
 
 document.querySelectorAll('.musik-valg').forEach(el => {
