@@ -91,21 +91,21 @@ header img:active {
   cursor: grabbing;
 }
 
-#back-arrow {
+#tilbage-pil {
     cursor: pointer;
     padding-right: 3px;
 }
 
-#back-arrow.inactive {
+#tilbage-pil.inactive {
     color: #aaa;
     cursor: default;
 }
 
-#back-arrow.inactive:hover {
+#tilbage-pil.inactive:hover {
     color: #aaa;
 }
 
-#back-arrow:hover {
+#tilbage-pil:hover {
     color: #666;
 }
 
@@ -124,24 +124,24 @@ header img:active {
     white-space: nowrap;
 }
 
-#play-btn {
+#play-knap {
     cursor: pointer;
 }
 
-#play-btn:hover {
+#play-knap:hover {
     color: #ffbaff;
 }
 
-#play-btn.inactive {
+#play-knap.inactive {
     cursor: default;
     pointer-events: none;
 }
 
-#play-selector {
+#musik-vaelger {
     cursor: pointer;
 }
 
-#play-selector:hover {
+#musik-vaelger:hover {
     color: #ffbaff;
 }
 
@@ -303,7 +303,7 @@ header img:active {
 
 
 /* Content */
-.content {
+.tekst-kolonne {
     padding: 6px;
     padding-top: 28px;
     font-weight: normal;
@@ -312,27 +312,27 @@ header img:active {
     white-space: pre-wrap;
 }
 
-.content:not(:empty) {
+.tekst-kolonne:not(:empty) {
     border-right: #ccc dotted 1px;
 }
 
-.content a {
+.tekst-kolonne a {
     text-decoration: wavy underline;
     font-weight: normal;
 }
 
-.content images {
+.tekst-kolonne images {
     display: none;
 }
 
-.content:empty {
+.tekst-kolonne:empty {
     display: none;
 }
 
 
 
 /* Billeder */
-.image-col {
+.billed-kolonne {
     padding: 6px;
     padding-top: 28px;
     display: flex;
@@ -342,7 +342,7 @@ header img:active {
     height: 100%;
 }
 
-.image-col img {
+.billed-kolonne img {
     width: 100%;
     height: auto;
     display: block;
@@ -372,7 +372,7 @@ header img:active {
     height: auto;
   }
 
-  .menu, .submenu, .content, .image-col {
+  .menu, .submenu, .tekst-kolonne, .billed-kolonne {
     display: none;
     height: auto;
     overflow-y: visible;
@@ -380,17 +380,12 @@ header img:active {
 
   .menu.mobile-active,
   .submenu.mobile-active,
-  .content.mobile-active {
+  .tekst-kolonne.mobile-active {
     display: block;
   }
 
-  .image-col.mobile-active {
+  .billed-kolonne.mobile-active {
     display: block;
   }
-
-  a.touched {
-    color: #333;
-    background-color: #ffbaff;
-    border-radius: 6px;
-  }
+  
 }

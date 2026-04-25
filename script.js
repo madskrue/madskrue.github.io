@@ -2,16 +2,16 @@
 const layout = document.querySelector('.layout');
 const menu = document.querySelectorAll('.menu p');
 const submenu = document.getElementById('submenu');
-const content = document.getElementById('content');
-const imageCol = document.getElementById('image-col');
-const backArrow = document.getElementById('back-arrow');
-const playBtn = document.getElementById('play-btn');
-const playSelect = document.getElementById('play-selector');
+const tekstKolonne = document.getElementById('tekst-kolonne');
+const billedKolonne = document.getElementById('billed-kolonne');
+const tilbagePil = document.getElementById('tilbage-pil');
+const playKnap = document.getElementById('play-knap');
+const musikVaelger = document.getElementById('musik-vaelger');
 const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 const logo = document.getElementById("logo");
-let mobileDepth = 0;
+let mobilDybde = 0;
 
 // Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -21,7 +21,7 @@ let musicSource;
 let musicPlaying = false;
 let musicStartTime = 0;
 let musicOffset = 0;
-let currentTrackName = 'success.mp3';
+let aktuelMusik = 'success.mp3';
 
 
 
@@ -31,54 +31,46 @@ let currentTrackName = 'success.mp3';
 // I N I T I A L I S E R I N G
 //=============================
 
+// Sæt logo klar til animation
+window.addEventListener("load", logoStartPosition);
+
+
+
+// Når siden loades, init
+document.addEventListener('DOMContentLoaded', () => {
+  if (erMobil()) {
+    aktiverMobilModus();
+  }
+});
+
+
+
 // Afgør device
-function isMobile() {
+function erMobil() {
   return window.innerWidth <= 600;
 }
 
 
 
-// Mobil: Navigationsdybde
-function setMobileDepth(depth) {
-  if (!isMobile()) return;
-  mobileDepth = depth;
-  if (depth > 0) {
-    backArrow.classList.remove('inactive');
-  } else {
-    backArrow.classList.add('inactive');
-  }
-}
-
-
-
 // Mobil init: Nulstil til menu
-function initMobileView() {
-  if (isMobile()) {
+function aktiverMobilModus() {
     document.querySelector('.menu').classList.add('mobile-active');
-    backArrow.style.display = 'inline';
-    backArrow.classList.add('inactive');
-  }
+    tilbagePil.style.display = 'inline';
+    tilbagePil.classList.add('inactive');
 }
 
 
 
-// Mobil: Når siden loades, init
-document.addEventListener('DOMContentLoaded', () => {
-  initMobileView();
-});
-
-
-
-// Touch-highlight på links
-document.querySelectorAll('a').forEach(link => {
-  link.addEventListener('touchstart', () => {
-    link.classList.add('touched');
-  });
-  
-  link.addEventListener('touchend', () => {
-    link.classList.remove('touched');
-  });
-});
+// Mobil: Navigationsdybde
+function saetMobilDybde(depth) {
+  if (!erMobil()) return;
+  mobilDybde = depth;
+  if (depth > 0) {
+    tilbagePil.classList.remove('inactive');
+  } else {
+    tilbagePil.classList.add('inactive');
+  }
+}
 
 
 
@@ -97,18 +89,18 @@ function hentItems(key) {
 
 
 // Header
-document.getElementById('header-title').addEventListener('click', () => {
+document.getElementById('header-titel').addEventListener('click', () => {
   menu.forEach(m => m.classList.remove('active'));
   layout.classList.remove('images-only');
   submenu.innerHTML = "";
-  content.innerHTML = "";
-  imageCol.innerHTML = "";
-  setMobileDepth(0);
+  tekstKolonne.innerHTML = "";
+  billedKolonne.innerHTML = "";
+  saetMobilDybde(0);
 
-  if (isMobile()) {
+  if (erMobil()) {
     document.querySelector('.submenu').classList.remove('mobile-active');
-    content.classList.remove('mobile-active');
-    imageCol.classList.remove('mobile-active');
+    tekstKolonne.classList.remove('mobile-active');
+    billedKolonne.classList.remove('mobile-active');
     document.querySelector('.menu').classList.add('mobile-active');
   }
 });
@@ -116,16 +108,16 @@ document.getElementById('header-title').addEventListener('click', () => {
 
 
 // Tilbage-pil
-backArrow.addEventListener('click', () => {
-  if (mobileDepth === 2) {
-    content.classList.remove('mobile-active');
-    imageCol.classList.remove('mobile-active');
+tilbagePil.addEventListener('click', () => {
+  if (mobilDybde === 2) {
+    tekstKolonne.classList.remove('mobile-active');
+    billedKolonne.classList.remove('mobile-active');
     document.querySelector('.submenu').classList.add('mobile-active');
-    setMobileDepth(1);
-  } else if (mobileDepth === 1) {
+    saetMobilDybde(1);
+  } else if (mobilDybde === 1) {
     document.querySelector('.submenu').classList.remove('mobile-active');
     document.querySelector('.menu').classList.add('mobile-active');
-    setMobileDepth(0);
+    saetMobilDybde(0);
   }
 });
 
@@ -170,10 +162,10 @@ function visSubmenu(key) {
       submenu.appendChild(el);
   });
 
-  if (isMobile()) {
+  if (erMobil()) {
     document.querySelector('.menu').classList.remove('mobile-active');
     document.querySelector('.submenu').classList.add('mobile-active');
-    setMobileDepth(1);
+    saetMobilDybde(1);
   }
 }
 
@@ -187,23 +179,23 @@ function visIndhold(item, el) {
   visTekst(item);
   visBilleder(item);
 
-  if (isMobile()) {
+  if (erMobil()) {
     document.querySelector('.submenu').classList.remove('mobile-active');
-    content.classList.add('mobile-active');
-    imageCol.classList.add('mobile-active');
-    setMobileDepth(2);
+    tekstKolonne.classList.add('mobile-active');
+    billedKolonne.classList.add('mobile-active');
+    saetMobilDybde(2);
   }
 }
 
 function visTekst(item) {
   const imagesOnly = item.hasAttribute('images-only');
-  content.innerHTML = imagesOnly ? '' : item.innerHTML;
+  tekstKolonne.innerHTML = imagesOnly ? '' : item.innerHTML;
   layout.classList.toggle('images-only', imagesOnly);
 }
 
 function visBilleder(item) {
   const images = Array.from(item.querySelectorAll('images img'));
-  imageCol.innerHTML = images.map(img =>
+  billedKolonne.innerHTML = images.map(img =>
     `<img src="${img.getAttribute('src')}" alt="${item.getAttribute('name')}">` +
     (img.getAttribute('caption')
       ? `<p class="image-caption">${img.getAttribute('caption')}</p>`
@@ -264,7 +256,7 @@ fetch('lyd/success.mp3')
   .then(buffer => { musicBuffer = buffer; })
   .catch(console.error);
 
-playBtn.addEventListener('click', () => {
+playKnap.addEventListener('click', () => {
   if (!musicBuffer) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
@@ -273,7 +265,7 @@ playBtn.addEventListener('click', () => {
     musicSource.stop();
     musicSource = null;
     musicPlaying = false;
-    playBtn.textContent = '▶︎';
+    playKnap.textContent = '▶︎';
     document.getElementById('play-text').textContent = 'play';
   } else {
     musicSource = audioCtx.createBufferSource();
@@ -283,8 +275,8 @@ playBtn.addEventListener('click', () => {
     musicSource.start(0, musicOffset);
     musicStartTime = audioCtx.currentTime - musicOffset;
     musicPlaying = true;
-    playBtn.textContent = '◼︎';
-    document.getElementById('play-text').textContent = currentTrackName;
+    playKnap.textContent = '◼︎';
+    document.getElementById('play-text').textContent = aktuelMusik;
   }
 });
 
@@ -297,7 +289,7 @@ playBtn.addEventListener('click', () => {
 //=============================
 
 // Musikselector
-playSelect.addEventListener('click', () => {
+musikVaelger.addEventListener('click', () => {
   popup.classList.add('visible');
   popupBg.classList.add('visible');
 })
@@ -307,7 +299,7 @@ popupX.addEventListener('click', () => {
   popupBg.classList.remove('visible');
 })
 
-function loadOgAfspil(filePath, trackName) {
+function hentOgAfspil(filePath, trackName) {
   if (musicSource) {
     musicSource.stop();
     musicSource = null;
@@ -315,11 +307,11 @@ function loadOgAfspil(filePath, trackName) {
   }
   musicOffset = 0;
 
-  playBtn.textContent = '⋯';
-  playBtn.classList.add('inactive');
+  playKnap.textContent = '⋯';
+  playKnap.classList.add('inactive');
   document.getElementById('play-text').textContent = "loading...";
 
-  currentTrackName = trackName;
+  aktuelMusik = trackName;
 
   fetch(filePath)
     .then(res => res.arrayBuffer())
@@ -333,16 +325,16 @@ function loadOgAfspil(filePath, trackName) {
       musicSource.start(0, 0);
       musicStartTime = audioCtx.currentTime;
       musicPlaying = true;
-      playBtn.classList.remove('inactive');
-      playBtn.textContent = '◼︎';
-      document.getElementById('play-text').textContent = currentTrackName;
+      playKnap.classList.remove('inactive');
+      playKnap.textContent = '◼︎';
+      document.getElementById('play-text').textContent = aktuelMusik;
     })
     .catch(console.error);
 }
 
 document.querySelectorAll('.musik-valg').forEach(el => {
   el.addEventListener('click', () => {
-    loadOgAfspil(el.dataset.src, el.textContent);
+    hentOgAfspil(el.dataset.src, el.textContent);
     popup.classList.remove('visible');
     popupBg.classList.remove('visible');
   });
@@ -351,8 +343,7 @@ document.querySelectorAll('.musik-valg').forEach(el => {
 
 
 // Logoanimation
-window.addEventListener("load", () => {
-
+function logoStartPosition () {
   // 1. Find slutpositionen (Target) mens logoet stadig er 12px i headeren
   const rect = logo.getBoundingClientRect();
   const endX = rect.left + (rect.width / 2);
@@ -383,54 +374,54 @@ window.addEventListener("load", () => {
   logo.style.offsetDistance = "0%";
   logo.style.transform = "scale(1)";
 
-  function startIntro() {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+  ['click', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, logoAnimation);
+  });
+}
 
-    ['click', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
-      window.removeEventListener(evt, startIntro);
-    });
-
-    // 6. Kør animationen - BEMÆRK: Ingen translate her!
-    const animation = logo.animate(
-      [
-        { 
-          offsetDistance: "0%", 
-          transform: "scale(1)",
-        },
-        { 
-          offsetDistance: "100%",
-          transform: "scale(0.1)",
-        }
-      ], 
-      {
-        duration: 2500,
-        easing: "cubic-bezier(0.6, 0, 0.8, 0.3)", 
-        fill: "forwards"
-      }
-    );
-
-    animation.onfinish = () => {
-      try {
-        animation.commitStyles();
-      } catch (e) {
-        logo.style.transform = "scale(0.1)";
-      }
-      animation.cancel();
-
-      // Ryd op og lad CSS overtage
-      logo.classList.remove("animating");
-      logo.style.offsetPath = "none";
-      logo.style.offsetDistance = "";
-      logo.style.offsetAnchor = "";
-      logo.style.width = "";
-      logo.style.height = "";
-      logo.style.transform = "";
-      
-      afspilDui();
-    };
-  }
+function logoAnimation() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
 
   ['click', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
-    window.addEventListener(evt, startIntro);
+    window.removeEventListener(evt, logoAnimation);
   });
-});
+
+  // 6. Kør animationen
+  const animation = logo.animate(
+    [
+      { 
+        offsetDistance: "0%", 
+        transform: "scale(1)",
+      },
+      { 
+        offsetDistance: "100%",
+        transform: "scale(0.1)",
+      }
+    ], 
+    {
+      duration: 2000,
+      easing: "cubic-bezier(0.6, 0, 0.8, 0.3)", 
+      fill: "forwards"
+    }
+  );
+
+  animation.onfinish = () => {
+    try {
+      animation.commitStyles();
+    } catch (e) {
+      logo.style.transform = "scale(0.1)";
+    }
+    animation.cancel();
+
+    // Ryd op og lad CSS overtage
+    logo.classList.remove("animating");
+    logo.style.offsetPath = "none";
+    logo.style.offsetDistance = "";
+    logo.style.offsetAnchor = "";
+    logo.style.width = "";
+    logo.style.height = "";
+    logo.style.transform = "";
+    
+    afspilDui();
+  };
+}
