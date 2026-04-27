@@ -166,7 +166,7 @@ header img:active {
     inset: 0;
     z-index: 9;
     background: rgba(255, 255, 255, 0);
-    backdrop-filter: blur(1px) saturate(0.5);
+    backdrop-filter: blur(1px) saturate(0.75);
     display: none;
     pointer-events: none;
     cursor: default;

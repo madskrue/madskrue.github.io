@@ -15,6 +15,7 @@ const logoBg = document.getElementById("logobg");
 const submenuElementer = new Map();
 let mobilModus = erMobil();
 let mobilDybde = 0;
+let specifikHash = false;
 
 // Prep audio
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -62,8 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function genopretFraHash() {
   const [key, itemSlug] = location.hash.replace('#', '').split('/');
-  if (!key || !itemSlug) return;
-  
+  if (!key || !itemSlug) {
+    specifikHash = false;
+    return;
+  };
+
+  specifikHash = true;
   document.querySelector('.menu').classList.remove('mobile-active');
   menu.forEach(m => m.classList.remove('active'));
   document.querySelector(`[data-target="${key}"]`)?.classList.add('active');
@@ -436,7 +441,7 @@ document.querySelectorAll('.musik-valg').forEach(el => {
 
 // Logoanimation
 function logoStartPosition () {
-  logoBg.style.display = 'block';
+  if (specifikHash === true) {logoBg.style.display = 'block'};
 
   // 1. Find slutpositionen (Target) mens logoet stadig er 12px i headeren
   const rect = logo.getBoundingClientRect();
@@ -451,6 +456,7 @@ function logoStartPosition () {
   logo.classList.add("animating");
   logo.style.width = "120px";
   logo.style.height = "120px";
+  logo.style.opacity = "0.5";
   
   // Eksplicit sæt ankerpunktet til midten (vigtigt for præcision)
   logo.style.offsetAnchor = "center";
@@ -486,10 +492,12 @@ function logoAnimation() {
       { 
         offsetDistance: "0%", 
         transform: "scale(1)",
+        opacity: "0.5",
       },
       { 
         offsetDistance: "100%",
         transform: "scale(0.1)",
+        opacity: "1",
       }
     ], 
     {
@@ -519,11 +527,12 @@ function logoAnimation() {
     afspilDui();
   }
   
+  if (specifikHash === true) {
   const animationBg = logoBg.animate(
-      [{ backdropFilter: 'blur(1px) saturate(0.5)' }, 
+      [{ backdropFilter: 'blur(1px) saturate(0.75)' }, 
        { backdropFilter: 'blur(0px) saturate(1)' }],
       { duration: 1500, easing: 'ease-in', fill: 'forwards' }
     );
     bgUd.onfinish = () => { logoBg.style.display = 'none'; };
-  ;
+  };
 }
