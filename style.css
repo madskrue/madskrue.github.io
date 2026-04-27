@@ -46,7 +46,7 @@ a:hover {
 
 .layout {
     display: grid;
-    grid-template-columns: minmax(80px, 100px) minmax(150px, 200px) minmax(200px, 440px) minmax(400px, 1fr);
+    grid-template-columns: minmax(50px, 100px) minmax(150px, 200px) minmax(200px, 440px) minmax(400px, 1fr);
     flex: 1;
     overflow: hidden;
 }
@@ -359,7 +359,7 @@ header img:active {
 
 
 /* Mobil */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   body {
     overflow-y: auto;
     height: auto;

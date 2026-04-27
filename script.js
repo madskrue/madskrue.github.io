@@ -11,6 +11,8 @@ const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 const logo = document.getElementById("logo");
+const submenuElementer = new Map();
+let mobilModus = erMobil();
 let mobilDybde = 0;
 
 // Prep audio
@@ -31,6 +33,12 @@ let aktuelMusik = 'success.mp3';
 // I N I T I A L I S E R I N G
 //=============================
 
+// Find relevant element fra hash
+document.addEventListener('DOMContentLoaded', genopretFraHash);
+window.addEventListener('hashchange', genopretFraHash);
+
+
+
 // Sæt logo klar til animation
 window.addEventListener("load", logoStartPosition);
 
@@ -39,21 +47,52 @@ window.addEventListener("load", logoStartPosition);
 // Når siden loades, init
 document.addEventListener('DOMContentLoaded', () => {
   if (erMobil()) {
-    aktiverMobilModus();
+    const [key, itemSlug] = location.hash.replace('#', '').split('/');
+    if (key && itemSlug) {
+      tilbagePil.style.display = 'inline';
+      // genopretFraHash håndterer resten
+    } else {
+      nulstilTilMenu();
+    }
   }
 });
 
 
 
+function genopretFraHash() {
+  const [key, itemSlug] = location.hash.replace('#', '').split('/');
+  if (!key || !itemSlug) return;
+  
+  document.querySelector('.menu').classList.remove('mobile-active');
+  menu.forEach(m => m.classList.remove('active'));
+  document.querySelector(`[data-target="${key}"]`)?.classList.add('active');
+  visSubmenu(key);
+
+  if (submenuElementer.has(itemSlug)) {
+    const { item, el } = submenuElementer.get(itemSlug);
+    visIndhold(item, el);
+  }
+}
+
+
+
+
+
+//===============================
+// M O B I L H Å N D T E R I N G
+//===============================
+
+
+
 // Afgør device
 function erMobil() {
-  return window.innerWidth <= 600;
+  return window.innerWidth <= 800;
 }
 
 
 
 // Mobil init: Nulstil til menu
-function aktiverMobilModus() {
+function nulstilTilMenu() {
     document.querySelector('.menu').classList.add('mobile-active');
     tilbagePil.style.display = 'inline';
     tilbagePil.classList.add('inactive');
@@ -74,11 +113,58 @@ function saetMobilDybde(depth) {
 
 
 
+// Automatisk toggle af mobil/desktop-modus ved ændring af skærmbredde
+window.addEventListener('resize', () => {
+  const mobilNu = erMobil();
+  if (mobilNu === mobilModus) return;
+  mobilModus = mobilNu;
+  if (mobilNu) {
+    aktiverMobilModus();
+  } else {
+    deaktiverMobilModus();
+  }
+});
+
+
+
+function aktiverMobilModus() {
+  tilbagePil.style.display = 'inline';
+  genopretFraHash(); // genskaber klasser og mobilDybde via visSubmenu/visIndhold
+  
+  // Hvis intet indhold er aktivt, vis menu
+  if (mobilDybde === 0) {
+    document.querySelector('.menu').classList.add('mobile-active');
+    tilbagePil.classList.add('inactive');
+  }
+}
+
+function deaktiverMobilModus() {
+  document.querySelector('.menu').classList.remove('mobile-active');
+  document.querySelector('.submenu').classList.remove('mobile-active');
+  tekstKolonne.classList.remove('mobile-active');
+  billedKolonne.classList.remove('mobile-active');
+  tilbagePil.style.display = 'none';
+  mobilDybde = 0;
+  genopretFraHash(); // genskaber aktive klasser og understrегninger
+}
+
+
+
 
 
 //=====================
 // N A V I G A T I O N
 //=====================
+
+function lavSlug(str) {
+  return str
+    .toLowerCase()
+    .replace(/æ/g, 'ae').replace(/ø/g, 'oe').replace(/å/g, 'aa')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+
 
 // Hent items
 function hentItems(key) {
@@ -90,6 +176,7 @@ function hentItems(key) {
 
 // Header
 document.getElementById('header-titel').addEventListener('click', () => {
+  location.hash = '';
   menu.forEach(m => m.classList.remove('active'));
   layout.classList.remove('images-only');
   submenu.innerHTML = "";
@@ -110,6 +197,7 @@ document.getElementById('header-titel').addEventListener('click', () => {
 // Tilbage-pil
 tilbagePil.addEventListener('click', () => {
   if (mobilDybde === 2) {
+    location.hash = '';
     tekstKolonne.classList.remove('mobile-active');
     billedKolonne.classList.remove('mobile-active');
     document.querySelector('.submenu').classList.add('mobile-active');
@@ -151,15 +239,18 @@ function preloadBilleder(key) {
 // Submenu-navigation
 function visSubmenu(key) {
   submenu.innerHTML = "";
-  
+  submenuElementer.clear();
   preloadBilleder(key);
 
   hentItems(key).forEach(item => {
-      const el = document.createElement('p');
-      el.textContent = item.getAttribute('name');
-      el.onclick = () => {
-      visIndhold(item, el)};
-      submenu.appendChild(el);
+    const el = document.createElement('p');
+    el.textContent = item.getAttribute('name');
+    el.onclick = () => {
+      location.hash = `${key}/${lavSlug(item.getAttribute('name'))}`;
+      visIndhold(item, el);
+    };
+    submenu.appendChild(el);
+    submenuElementer.set(lavSlug(item.getAttribute('name')), { item, el });
   });
 
   if (erMobil()) {
