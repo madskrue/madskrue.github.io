@@ -11,6 +11,7 @@ const popup = document.getElementById('popup');
 const popupBg = document.getElementById('popupbg');
 const popupX = document.getElementById('popupkryds');
 const logo = document.getElementById("logo");
+const logoBg = document.getElementById("logobg");
 const submenuElementer = new Map();
 let mobilModus = erMobil();
 let mobilDybde = 0;
@@ -435,6 +436,8 @@ document.querySelectorAll('.musik-valg').forEach(el => {
 
 // Logoanimation
 function logoStartPosition () {
+  logoBg.style.display = 'block';
+
   // 1. Find slutpositionen (Target) mens logoet stadig er 12px i headeren
   const rect = logo.getBoundingClientRect();
   const endX = rect.left + (rect.width / 2);
@@ -490,7 +493,7 @@ function logoAnimation() {
       }
     ], 
     {
-      duration: 2000,
+      duration: 1500,
       easing: "cubic-bezier(0.6, 0, 0.8, 0.3)", 
       fill: "forwards"
     }
@@ -514,5 +517,13 @@ function logoAnimation() {
     logo.style.transform = "";
     
     afspilDui();
-  };
+  }
+  
+  const animationBg = logoBg.animate(
+      [{ backdropFilter: 'blur(1px) saturate(0.5)' }, 
+       { backdropFilter: 'blur(0px) saturate(1)' }],
+      { duration: 1500, easing: 'ease-in', fill: 'forwards' }
+    );
+    bgUd.onfinish = () => { logoBg.style.display = 'none'; };
+  ;
 }

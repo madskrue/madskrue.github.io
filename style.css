@@ -157,8 +157,19 @@ header img:active {
     z-index: 20;
     left: 0;
     top: 0;
-    pointer-events: auto; /* Ændret fra none, så man kan klikke på det */
+    pointer-events: auto;
     cursor: pointer;
+}
+
+#logobg {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(1px) saturate(0.5);
+    display: none;
+    pointer-events: none;
+    cursor: default;
 }
 
 
